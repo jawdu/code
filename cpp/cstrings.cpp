@@ -1,4 +1,4 @@
-// string simulation, changable dimensions
+// monte carlo string simulation, changable dimensions
 
 #include <iostream>
 #include <stdlib.h> 			// dunno yet
