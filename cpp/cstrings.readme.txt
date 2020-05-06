@@ -1,0 +1,7 @@
+
+
+Compiles with g++ on a linux box (ubuntu or mint). Everything else out of my hands.
+
+
+Warning: simulation time will increase exponentially with mesh size. Keep mesh size under ~50 for quick runs, use ~10 for testing.
+
