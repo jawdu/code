@@ -1,0 +1,155 @@
+#!/bin/bash
+
+# Make timings for subtitles as film is being watched. 
+# usage: > subtime filename
+
+# **** THIS VERSION just 1 key press, make 1.5s duration subtitle.
+
+fileIn="$1"
+
+echo
+echo " ********** ________ subtime ________ **********"
+echo
+
+if [ $# -eq 0 ]; then
+	# no filename provided
+	echo -e "No filename provided, using default filename: timings.srt\n"
+	filename=timings.srt
+elif [ "${fileIn##*.}" != "srt" ]; then
+	# no srt extension provided
+	filename=$(echo "$fileIn.srt")
+	echo -e "Adding extension to filename, subs will be written to: $filename\n"
+fi
+
+filelog=$(echo "$filename.log")
+
+num=0					# counter for subtitle number
+pbool=1					# 'boolean' variable for pause state
+toff=0					# offset for pauses
+tres=0					# offset for resumes
+fflag=0					# 'flag' flag
+time2=0					# set now
+
+# check if filename exists
+
+if [ -f $filename ]; then
+	# assume a resume - get $num, $tres from file, record resume in .log file
+	echo -e "Subtitle file $filename already exists - resuming, using offset data from $filelog\n"
+	tres=$(sed -n ':a;${P;q};N;2,$D;ba' <$filelog)		# 2 for last line
+	num=$(sed -n ':a;${P;q};N;4,$D;ba' <$filelog)		# 4 for 3rd last line
+	echo -e "\n *** Resumption at subtitle number $num \n" >> $filelog
+fi
+
+echo -e "Ready to start - any key will begin a 10 second countdown to start. Get ready!\n"
+read -n 1 -s
+
+# countdown
+scount=10
+while [ $scount -ge 1 ]; do
+	echo -e "...ready in $scount..."	
+	sleep 1
+	scount=$((scount-1))
+done
+
+echo -e "\n Started. 'q' to finish, 'p' to pause; any other key records start or stop time of subtitle. \n"
+
+t0=$(date +"%s%3N")		# unix time in milliseconds for t0
+
+read -n 1 -s trigger
+
+while [ "$trigger" != "q" ]; do
+
+	if [ "$trigger" = "p" ] && [ "$pbool" = "1" ]; then
+		
+		# pause - record time at start of pause, write event to .log
+		pbool=$((-pbool))
+		tps=$(date +"%s%3N")
+		echo "  ~  Paused! Any non-'q' key resumes the timer"
+		echo -e "\n *** Pause occurred after subtitle $num \n" >> $filelog
+
+	else
+
+		if [ "$pbool" = "-1" ]; then
+
+			# unpausing - increment time offset
+			pbool=$((-pbool))
+			echo -e "  ~  Unpaused - timer running, recorded pause to .log file\n"
+			tpe=$(date +"%s%3N")
+			toff=$((toff+tpe-tps))
+
+		else
+
+		# NOW write subtitles UNLESS time elapsed <1.5 seconds from last sub write.
+		# either error or bump so +1.5secs
+
+			num=$((num+1))
+			time1=$(date +"%s%3N")
+	 		time1=$((time1-toff-t0+tres))
+
+			# bump timing if less than 1.5s elapsed from last timing
+			if [ "$time1" -lt "$time2" ]; then
+				time1=$((time2+100))
+			fi
+
+			# convert time from ms -> h:m:s:ms
+			ms1=$(echo "$time1 % 1000" | bc)
+			s1=$(echo "(($time1 - $ms1) / 1000) % 60" | bc)
+			m1=$(echo "((($time1 - $ms1 - (1000*$s1))) / 60000) % 60" | bc)		
+			h1=$(echo "($time1 - $ms1 - (1000*$s1) - (60000*$m1)) / 3600000" | bc)
+
+			# 1.5s duration
+			time2=$((time1+1500))
+
+			ms2=$(echo "$time2 % 1000" | bc)
+			s2=$(echo "(($time2 - $ms2) / 1000) % 60" | bc) # duration
+			m2=$(echo "((($time2 - $ms2 - (1000*$s2))) / 60000) % 60" | bc)		
+			h2=$(echo "($time2 - $ms2 - (1000*$s2) - (60000*$m2)) / 3600000" | bc)
+
+			# formatting for hh:mm:ss:mss:
+			ms1=$(printf "%03d" $ms1)
+			s1=$(printf "%02d" $s1)
+			m1=$(printf "%02d" $m1)
+			h1=$(printf "%02d" $h1)		
+
+			ms2=$(printf "%03d" $ms2)
+			s2=$(printf "%02d" $s2)
+			m2=$(printf "%02d" $m2)
+			h2=$(printf "%02d" $h2)	
+
+			# add new timings to file with number, dummy text:
+			echo -e "$num\n$h1:$m1:$s1,$ms1 --> $h2:$m2:$s2,$ms2\n#line $num\n" >> $filename
+			echo -e "Subtitle $num written: $h1:$m1:$s1,$ms1 --> $h2:$m2:$s2,$ms2\n"
+
+			# every 10 times show this as reminder
+			if (( $num % 10 == 0 )); then
+				echo -e "\n *** Remember - q to quit, p to pause *** \n"
+			fi
+
+		fi	# closure of unpause check loop
+	fi 	# closure of pause loop
+	
+	read -n 1 -s trigger	
+
+done
+
+# work out exit time to write to filelog
+tend=$(date +"%s%3N")
+tend=$((tend-toff-t0+tres))
+
+ms1=$(echo "$tend % 1000" | bc)
+s1=$(echo "(($tend - $ms1) / 1000) % 60" | bc)
+m1=$(echo "((($tend - $ms1 - (1000*$s1))) / 60000) % 60" | bc)		
+h1=$(echo "($tend - $ms1 - (1000*$s1) - (60000*$m1)) / 3600000" | bc)
+
+ms1=$(printf "%03d" $ms1)
+s1=$(printf "%02d" $s1)
+m1=$(printf "%02d" $m1)
+h1=$(printf "%02d" $h1)	
+
+# stuff written to filelog for resume
+echo -e "Film time at quit point: $h1:$m1:$s1,$ms1\n" >> $filelog
+echo -e "Lines written successfully so far: \n$num" >> $filelog
+echo -e "Time increment so far: \n$tend" >> $filelog
+
+echo -e "Exiting. Subtitle file written to $filename, log to $filelog, in pwd.\n"
+exit 1
