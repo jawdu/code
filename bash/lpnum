@@ -1,10 +1,15 @@
 #!/bin/bash
 
 # deal with untagged, unnumbered directory of mp3 LP
+# convert FILENAME.mp3 to 02 - FILENAME.mp3 etc, with appropriate id3 track number tag
+# dependencies: id3v2
 
 echo
 echo " --------- LPNUM ------------ "
 echo
+echo " adding leading track numbers, id3 tags to folder of mp3s "
+
+command -v id3v2 >/dev/null 2>&1 || { echo >&2 " \n id3v2 required, not installed.  Aborting."; exit 1; }
 
 count=`ls -1 *.mp3 2>/dev/null | wc -l`
 
@@ -13,19 +18,28 @@ if [ $count = 0 ]; then
     exit 0            
 fi
 
+echo -e "\n mp3s in pwd: \n"
+
 ls *.mp3 -1
 
-echo -e "\n looping in pwd for mp3s... \n" 
+echo -e "\n Now looping in pwd for mp3s... \n" 
 
 for filename in *.mp3; do
 
-    read -p " Add track number of $filename - n 2 digit format with leading zero if < 10: " tnum
+    read -p " Add track number of '${filename%.mp3}': " tnum
 
-    #   here write id3 tag before renaming
+    if [[ ${#tnum} -lt 2 ]] ; then
+        tnum="0${tnum}"
+        echo -e "\n adding zero to give $tnum"
+    fi
+
+    id3v2 -T "$tnum" "$filename"
 
     mv -v "$filename" "$tnum - $filename" 
 
 done
 
-echo -e " \n ...done, exiting... \n"
+echo -e " \n ...done, new filename: \n"
+ls -1
+echo -e "\n ... exiting."
 
