@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# deal with untagged, unnumbered directory of mp3 LP
+
+echo
+echo " --------- LPNUM ------------ "
+echo
+
+count=`ls -1 *.mp3 2>/dev/null | wc -l`
+
+if [ $count = 0 ]; then
+    echo " no mp3 in pwd, exiting..."
+    exit 0            
+fi
+
+ls *.mp3 -1
+
+echo -e "\n looping in pwd for mp3s... \n" 
+
+for filename in *.mp3; do
+
+    read -p " Add track number of $filename - n 2 digit format with leading zero if < 10: " tnum
+
+    #   here write id3 tag before renaming
+
+    mv -v "$filename" "$tnum - $filename" 
+
+done
+
+echo -e " \n ...done, exiting... \n"
+
