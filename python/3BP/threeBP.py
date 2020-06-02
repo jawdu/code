@@ -8,13 +8,16 @@ import numpy as np
 from inDU import inputDeck
 from inDU import inputUser
 
+#G = 6.6741 * (10**-11)
+#dt = 0.001    # timestep
+
 # get inputs
 
 if input("y to use defaults, any other key to input new: ") == "y":
-    x1, y1, x2, y2, x3, y3, vx1, vy1, vx2, vy2, vx3, vy3, m1, m2, m3 = inputDeck()
+    rx, ry, vx, vy, m = inputDeck()
 
 else:
-    x1, y1, x2, y2, x3, y3, vx1, vy1, vx2, vy2, vx3, vy3, m1, m2, m3 = inputUser()
+    rx, ry, vx, vy, m = inputUser()
 
 
 
@@ -23,7 +26,7 @@ else:
 
 # plot initial positions
 
-mpl.plot(x1, y1, 'bo', x2, y2, 'ro', x3, y3, 'go')
+mpl.plot(rx[0], ry[0], 'bo', rx[1], ry[1], 'ro', rx[2], ry[2], 'go')
 mpl.show()
 
 
