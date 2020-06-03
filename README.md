@@ -16,7 +16,6 @@ Code that isn't web stuff, in the following folders:
 
   - ~~3BP: work in progress~~
   
-  - codeGolf: playing around with challenges from codeGolf on stackexchange.
-  
   - fractan: implementing Conway's fractran programming language
 
+Folders might also have a codeGolf folder: playing around with challenges from codeGolf on stackexchange for shits & kicks  practice.
