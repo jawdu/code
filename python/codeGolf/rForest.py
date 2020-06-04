@@ -28,9 +28,10 @@ img = Image.new("RGB", (800,600), (255, 255, 255)) #initialise as white
 
 # define transition.  maybe need to make this smooth ones day
 
-boundary = np.random.normal(450, 5, size=(1, 800)).astype(int)
+boundary = np.random.normal(150, 5, size=(1, 800)).astype(int)
 
-
+for i in range(800):
+   img.putpixel((i, boundary[0,i]), (0, 0, 0))
 
 img.save(fileout, "PNG")
 
