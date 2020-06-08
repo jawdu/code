@@ -21,8 +21,9 @@ import time
 import numpy as np
 import math
 
-fileout = "rForest-" + time.strftime("%H%M%S") + ".png" # timestamped filename so we can run many times
+fileout = "Forest-" + time.strftime("%H%M%S") + ".png" # timestamped filename so we can run many times
 img = Image.new("RGB", (800,600), (255, 255, 255)) #initialise as white
+horizon = []
 
 # draw a horizon. s sin parameters, c cube parameters, softly randomised
 
@@ -35,21 +36,57 @@ c3 = np.random.uniform(-0.002, 0.002)
 
 for i in range(800):
     p = 250 + int(s1 * (math.sin((6 * i / 800) + s2)) + (c1*(i**3) + c2*(i**2) + c3*i))
+    if (i % 2 == 0): 
+        img.putpixel((i, p-1), (0, 0, 0))
+    else:
+        img.putpixel((i, p+1), (0, 0, 0))
+    horizon.append(p)
+# provisional, stil bit clean
 
-    img.putpixel((i, p), (0, 0, 0))
-
-    #for j in range(2):
-        #img.putpixel((i, 300+j), (0, 0, 0))
+# path: do a sin, but need to kinda log it? also to keep to about 2pi range. maybe solve for randomish start, end
 
 
+pStart = 300
 
-boundary = np.random.normal(150, 5, size=(1, 800)).astype(int)
+pEnd = 500
+
+
+for i in range(0, horizon[pEnd]):
+    img.putpixel((int(pStart + i * ((pEnd - pStart) / horizon[pEnd])), i), (0, 0, 0))
+
+
+boundary = np.random.normal(150, 5, size=(1, 800))
+
+
+
+# boundary parameters 
+b1 = 16 + np.random.uniform(-3, 3)
+b2 = 23 + np.random.uniform(-3, 3)
+b3 = 360 + np.random.uniform(-20, 20)
+
+for i in range(800):
+    # melt boundary a little 
+    if (i < pEnd):
+        boundary[0, i] = boundary[0, i] + np.random.uniform(b1, b2)*math.exp((pEnd-i)/b3)
+    else:
+        boundary[0, i] = boundary[0, i] + np.random.uniform(b1, b2)*math.exp((i-pEnd)/b3)
+
+boundary = boundary.astype(int)
+
 # maybe add a gentle curve here, based on path
 
 for i in range(800):
     for j in range(boundary[0,i]):
-        # control density of canopy
+        # fill in canopy; if to control density of canopy
         if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, j), (0, 0, 0))
+
+
+
+
+
+
+# to do a tree. start with centre, thickness, #branch. random to add branch, then add centre, thickness
+
 
 
 
