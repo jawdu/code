@@ -36,28 +36,42 @@ c3 = np.random.uniform(-0.002, 0.002)
 
 for i in range(800):
     p = 250 + int(s1 * (math.sin((6 * i / 800) + s2)) + (c1*(i**3) + c2*(i**2) + c3*i))
-    if (i % 2 == 0): 
-        img.putpixel((i, p-1), (0, 0, 0))
-    else:
-        img.putpixel((i, p+1), (0, 0, 0))
+    if (np.random.uniform(0, 1) < 0.45): img.putpixel((i, p), (0, 0, 0))
+    if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, p+1), (0, 0, 0))
+    if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, p-1), (0, 0, 0))
     horizon.append(p)
-# provisional, stil bit clean
 
-# path: do a sin, but need to kinda log it? also to keep to about 2pi range. maybe solve for randomish start, end
+pStart = int(370 + np.random.uniform(-50, 50))
+pEnd = int(430 + np.random.uniform(-50, 50))
+h = 600 - horizon[pEnd]
 
+# add one sin from start, one from end, roughly randomised so they overlap in middle
 
-pStart = 300
+s1p = np.random.uniform(0.8, 1.2) * h/2 
+s2p = np.random.uniform(0.8, 1.2) * h/2 
+s1a = np.random.uniform(-25, 25) # more as closer
+2a = np.random.uniform(-15, 15) # less as further
 
-pEnd = 500
+for i in range(599, horizon[pEnd], -1):
+        pa = (pStart - pEnd) / h
+        pb = pStart - ((pStart - pEnd) / (1 - horizon[pEnd]/600))
+        pc = 0
 
+        if ((horizon[pEnd] - i) < s1p): 
+            pc = s1a * math.sin(3.14*(600-i)/(s1p))
+        if ((horizon[pEnd] - i) > s2p): 
+            pc = s2a * math.sin(3.14*(600-i)/(s2p))
+                     
+        # rough parameter of path width. start: 20 end: 5  -> gradient
+        w = int((i * 20 / h) - 8)
 
-for i in range(0, horizon[pEnd]):
-    img.putpixel((int(pStart + i * ((pEnd - pStart) / horizon[pEnd])), i), (0, 0, 0))
+        for j in range(-w, w):
+            if (np.random.uniform(0, 1) < 0.15):
+                img.putpixel((int(i * pa + pb + j + pc), i) , (0, 0, 0))    
+
 
 
 boundary = np.random.normal(150, 5, size=(1, 800))
-
-
 
 # boundary parameters 
 b1 = 16 + np.random.uniform(-3, 3)
@@ -79,8 +93,6 @@ for i in range(800):
     for j in range(boundary[0,i]):
         # fill in canopy; if to control density of canopy
         if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, j), (0, 0, 0))
-
-
 
 
 
