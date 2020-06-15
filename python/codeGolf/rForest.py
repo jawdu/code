@@ -28,6 +28,12 @@ for i in range(800):
     if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, p-1), (0, 0, 0))
     horizon.append(p)
 
+    # try v v v low density shading under horizon?
+
+    for j in range(599, p, -1):
+        if (np.random.uniform(0, 1) < 0.01): img.putpixel((i, j), (0, 0, 0))
+
+
 # make the path.
 
 pStart = int(370 + np.random.uniform(-50, 50))
@@ -85,43 +91,42 @@ for i in range(800):
         # fill in canopy; if to control density of canopy
         if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, j), (0, 0, 0))
 
+# make averaged boundary
+
+bAv = [(boundary[0,0] + boundary[0,1])/2, (boundary[0,1] + boundary[0,2])/2]
+
+for i in range(796):
+    bAv.append(0)
+    for j in range (5):
+        bAv[i+2] += boundary[0, i+j] / 5
+
+bAv.append((boundary[0,797] + boundary[0,798])/2)
+bAv.append((boundary[0,798] + boundary[0,799])/2)
+
 # trees
 
 tx = []; tw = []; ty = []; td = []
-
-k = np.random.randint(35, 60) # number of trees. to be deleted once new method set up
-
-# starting to feel need to control distribution more: e.g. by fixed interval over y *or* x
-# ^ make a semi structured grid, so a tree randomly in each square (i.e. in each (i, j)), but
-# grid structure determined by path a bit. OR just if path in square, ignore / constrain
-# also - finite set of x values, to stop overlap. maybe set up list of them, select then remove?
-# ^ easier to loop over (unique) x vals
-# maybe 5 buckets for y. slight weight against foreground?
 
 # to fix that bug - some sort of averaged canopy value over c. 5 x values. maybe do this at start
 # ... define length of tree when created. fade into canopy?
 # or change canopy to discrete function, but add noise after
 
-for i in range(k):
-    if np.random.random() < 0.5: 
-        td.append(-1); tx.append(np.random.randint(500, 770))
-    else: 
-        td.append(1); tx.append(np.random.randint(30, 300))
-    ty.append(np.random.randint(300, 590))
-    tw.append(int(0.038 * ty[i] + np.random.uniform(10, 16)))
+# new algorithm, a tree based on x range 'buckets':
 
-# new algorithm:
+for i in range(49): 
 
-# for i in range(48) (for width = 16: seems better?)
-#    check not path? then random y val *or* semi random, take previous and shift by (c + random).
-#     xval = 16 + i*16 +- random (BUT be careful of edges)
-#    this shift also modulo(horizon). or alternate top half/bottom half also randomish x val, in range.
+    x = 16 + i*16 + np.random.randint(-5, 5)
+    if (i==0): y = np.random.randint(300, 580); j = 0;
+    else: y = 300 + (ty[i-j-1] - 120 + np.random.randint(0, 100)) % 290
+# ^^^ i think this not quite ideal, tinker
 
-
-
-# 'tree half'
-#th = ty[0] - int((ty[0] - boundary[0,tx[0]])/2)
-#for i in range(ty[0], th, -1):
+    # check not path before adding to array. j little hack to fix index issue when skipping
+    if (abs(pCentre[599-y] - x)) < 16: j += 1
+    else:    
+        tx.append(x); ty.append(y)
+        if x > pCentre[599-y]: td.append(1) # make curl away from path
+        else: td.append(-1)
+        tw.append(int(0.058 * ty[i-j] + np.random.uniform(10, 16))) 
 
 for i in range(len(tx)): 
 
@@ -129,20 +134,21 @@ for i in range(len(tx)):
     for l in range(int(tw[i]/2)):
         for k in range(int(-tw[i]/2), int(tw[i]/2)):
             t =  0.2 * 2 * l / tw[i]
-            if (np.random.uniform(0,1) < t): img.putpixel((tx[i]+k, ty[i]), (0, 0, 0))
+            if (np.random.uniform(0,1) < t) and ((tx[i]+k) > 0) and ((tx[i]+k) < 799): 
+                img.putpixel((tx[i]+k, ty[i]), (0, 0, 0))
         tw[i] -= 1
         ty[i] -= 1
 
-# ^ base bit timid. maybe separate width paramater out, do 3 x width in x to give better spread
+# ^ base bit timid. maybe separate width parameter out, do 3 x width in x to give better spread
 
     while ty[i] != 0:
         for j in range(int(-tw[i]/2), int(tw[i]/2)):
-            if (np.random.uniform(0, 1) < 0.35): img.putpixel((tx[i]+j, ty[i]), (0, 0, 0))
+            if (np.random.uniform(0, 1) < 0.35) and ((tx[i]+j) > 0) and ((tx[i]+j) < 799):
+                img.putpixel((tx[i]+j, ty[i]), (0, 0, 0))
         ty[i] -= 1
-        if ((tx[i] - tw[i]/2) < 1) or ((tx[i] + tw[i]/2) > 799): 
+        if ty[i] < bAv[tx[i]]:
             ty[i] = 0
-        if ((ty[i] == boundary[0, tx[i]]) or (ty[i] == 140)): # 140 lazy bug fix. not working
-            ty[i] = 0
+            # want to maybe do this c.10 pixels before, then spread into canopy
         if (np.random.uniform(0, 1) < 0.2): tx[i] += int(np.random.uniform(-1,  2)) * td[i]
 
 
