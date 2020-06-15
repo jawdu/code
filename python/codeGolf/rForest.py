@@ -1,20 +1,7 @@
 #! /usr/bin/python3
 
 #https://codegolf.stackexchange.com/questions/35835/draw-random-black-and-white-forest
-
-# some sort of branching i.e. fractal-ish
-# furthest to nearest - so overwrite?
-# 
-# 800 x 600
-
-# too dense, overwriting. further trees - less black . like pixels spaced.
-
 # got pillow c.f. https://stackoverflow.com/questions/33484244/create-modify-and-save-an-image-in-python-3-x
-
-# define leaf line then apply one pattern above, prob just gaussianish around horizon+150ish
-# an array(x) with y values defining the transition pixel
-# then algorithm for trunks & partial leaf
-# do more like a hollowway - a path snaking to horizon. then fill in trees either side.
 
 from PIL import Image
 import time
@@ -40,6 +27,8 @@ for i in range(800):
     if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, p+1), (0, 0, 0))
     if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, p-1), (0, 0, 0))
     horizon.append(p)
+
+# make the path.
 
 pStart = int(370 + np.random.uniform(-50, 50))
 pEnd = int(430 + np.random.uniform(-50, 50))
@@ -72,9 +61,10 @@ for i in range(599, horizon[pEnd], -1):
             if (np.random.uniform(0, 1) < 0.15):
                 img.putpixel((pn+j, i) , (0, 0, 0))    
 
+# canopy & boundary
+
 boundary = np.random.normal(150, 5, size=(1, 800))
 
-# boundary parameters 
 b1 = 16 + np.random.uniform(-3, 3)
 b2 = 23 + np.random.uniform(-3, 3)
 b3 = 360 + np.random.uniform(-20, 20)
@@ -95,11 +85,22 @@ for i in range(800):
         # fill in canopy; if to control density of canopy
         if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, j), (0, 0, 0))
 
+# trees
+
 tx = []; tw = []; ty = []; td = []
 
-k = np.random.randint(35, 60)
+k = np.random.randint(35, 60) # number of trees. to be deleted once new method set up
 
 # starting to feel need to control distribution more: e.g. by fixed interval over y *or* x
+# ^ make a semi structured grid, so a tree randomly in each square (i.e. in each (i, j)), but
+# grid structure determined by path a bit. OR just if path in square, ignore / constrain
+# also - finite set of x values, to stop overlap. maybe set up list of them, select then remove?
+# ^ easier to loop over (unique) x vals
+# maybe 5 buckets for y. slight weight against foreground?
+
+# to fix that bug - some sort of averaged canopy value over c. 5 x values. maybe do this at start
+# ... define length of tree when created. fade into canopy?
+# or change canopy to discrete function, but add noise after
 
 for i in range(k):
     if np.random.random() < 0.5: 
@@ -109,11 +110,13 @@ for i in range(k):
     ty.append(np.random.randint(300, 590))
     tw.append(int(0.038 * ty[i] + np.random.uniform(10, 16)))
 
+# new algorithm:
 
-# change width w.r.t. base: start more, then reduce for a few iterations
-# for i in tw/2: and increase density. tinker.
+# for i in range(48) (for width = 16: seems better?)
+#    check not path? then random y val *or* semi random, take previous and shift by (c + random).
+#     xval = 16 + i*16 +- random (BUT be careful of edges)
+#    this shift also modulo(horizon). or alternate top half/bottom half also randomish x val, in range.
 
-# maybe do similar with top? fade out into canopy. might deal with bug.
 
 
 # 'tree half'
@@ -143,13 +146,6 @@ for i in range(len(tx)):
         if (np.random.uniform(0, 1) < 0.2): tx[i] += int(np.random.uniform(-1,  2)) * td[i]
 
 
-
-# now start top half
-
-# maybe have seperate for trunk & branches
-# draw trees, and randomly save (x,y) point to draw branches afterwards
-# also better to build code for doing multiple trees 1st
-# also start from base & forget about doing top & bottom half
         
 
 img.save(fileout, "PNG")
