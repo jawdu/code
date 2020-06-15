@@ -81,12 +81,13 @@ for i in range(800):
 
 boundary = boundary.astype(int)
 
-# maybe add a gentle curve here, based on path
-
 for i in range(800):
     for j in range(boundary[0,i]):
         # fill in canopy; if to control density of canopy
         if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, j), (0, 0, 0))
+    for j in range(boundary[0, i] + 1, boundary[0, i] + 20):
+        # little more to bridge gap
+        if (np.random.uniform(0, 1) < 0.18): img.putpixel((i, j), (0, 0, 0))        
 
 # make averaged boundary
 
@@ -120,7 +121,7 @@ for i in range(49):
 
 for i in range(len(tx)): 
 
-    # do the base
+    # do the base. bit timid still?
     for l in range(int(tw[i]/2)):
         for k in range(int(-tw[i]/2), int(tw[i]/2)):
             t =  0.2 * 2 * l / tw[i]
@@ -129,19 +130,12 @@ for i in range(len(tx)):
         tw[i] -= 1
         ty[i] -= 1
 
-# base bit timid. maybe separate width parameter out, do 3 x width in x to give better spread
-
     while ty[i] != 0:
         for j in range(int(-tw[i]/2), int(tw[i]/2)):
             if (np.random.uniform(0, 1) < 0.35) and ((tx[i]+j) > 0) and ((tx[i]+j) < 799):
                 img.putpixel((tx[i]+j, ty[i]), (0, 0, 0))
         ty[i] -= 1
         if (ty[i]) < bAv[tx[i]]: 
-            #for m in range(30):
-               # for n in range(int(-tw[i]/2 - m), int(tw[i]/2) + m):
-                  #  if (np.random.uniform(0, 1) < 0.20) and ((tx[i]+n) > 0) and ((tx[i]+n) < 799):
-                     #   img.putpixel((tx[i]+n, ty[i]-m), (0, 0, 0))
-            # zero this after. don't like ^
             ty[i] = 0
 
         if (np.random.uniform(0, 1) < 0.2) and (tx[i] < 797) and (tx[i] > 1): 
