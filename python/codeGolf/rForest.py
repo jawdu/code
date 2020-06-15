@@ -1,7 +1,6 @@
 #! /usr/bin/python3
 
 #https://codegolf.stackexchange.com/questions/35835/draw-random-black-and-white-forest
-# got pillow c.f. https://stackoverflow.com/questions/33484244/create-modify-and-save-an-image-in-python-3-x
 
 from PIL import Image
 import time
