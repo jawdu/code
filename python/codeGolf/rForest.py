@@ -28,11 +28,8 @@ for i in range(800):
     if (np.random.uniform(0, 1) < 0.25): img.putpixel((i, p-1), (0, 0, 0))
     horizon.append(p)
 
-    # try v v v low density shading under horizon?
-
     for j in range(599, p, -1):
         if (np.random.uniform(0, 1) < 0.01): img.putpixel((i, j), (0, 0, 0))
-
 
 # make the path.
 
@@ -105,11 +102,7 @@ bAv.append((boundary[0,798] + boundary[0,799])/2)
 
 # trees
 
-tx = []; tw = []; ty = []; td = []
-
-# to fix that bug - some sort of averaged canopy value over c. 5 x values. maybe do this at start
-# ... define length of tree when created. fade into canopy?
-# or change canopy to discrete function, but add noise after
+tx = []; tw = []; ty = []
 
 # new algorithm, a tree based on x range 'buckets':
 
@@ -118,14 +111,11 @@ for i in range(49):
     x = 16 + i*16 + np.random.randint(-5, 5)
     if (i==0): y = np.random.randint(300, 580); j = 0;
     else: y = 300 + (ty[i-j-1] - 120 + np.random.randint(0, 100)) % 290
-# ^^^ i think this not quite ideal, tinker
 
     # check not path before adding to array. j little hack to fix index issue when skipping
-    if (abs(pCentre[599-y] - x)) < 16: j += 1
+    if (abs(pCentre[599-y] - x)) < 21: j += 1
     else:    
         tx.append(x); ty.append(y)
-        if x > pCentre[599-y]: td.append(1) # make curl away from path
-        else: td.append(-1)
         tw.append(int(0.058 * ty[i-j] + np.random.uniform(10, 16))) 
 
 for i in range(len(tx)): 
@@ -139,21 +129,23 @@ for i in range(len(tx)):
         tw[i] -= 1
         ty[i] -= 1
 
-# ^ base bit timid. maybe separate width parameter out, do 3 x width in x to give better spread
+# base bit timid. maybe separate width parameter out, do 3 x width in x to give better spread
 
     while ty[i] != 0:
         for j in range(int(-tw[i]/2), int(tw[i]/2)):
             if (np.random.uniform(0, 1) < 0.35) and ((tx[i]+j) > 0) and ((tx[i]+j) < 799):
                 img.putpixel((tx[i]+j, ty[i]), (0, 0, 0))
         ty[i] -= 1
-        if ty[i] < bAv[tx[i]]:
+        if (ty[i]) < bAv[tx[i]]: 
+            #for m in range(30):
+               # for n in range(int(-tw[i]/2 - m), int(tw[i]/2) + m):
+                  #  if (np.random.uniform(0, 1) < 0.20) and ((tx[i]+n) > 0) and ((tx[i]+n) < 799):
+                     #   img.putpixel((tx[i]+n, ty[i]-m), (0, 0, 0))
+            # zero this after. don't like ^
             ty[i] = 0
-            # want to maybe do this c.10 pixels before, then spread into canopy
-        if (np.random.uniform(0, 1) < 0.2): tx[i] += int(np.random.uniform(-1,  2)) * td[i]
 
-
+        if (np.random.uniform(0, 1) < 0.2) and (tx[i] < 797) and (tx[i] > 1): 
+            tx[i] += int(np.random.uniform(-2,  2)) # wobbles
         
-
 img.save(fileout, "PNG")
-
 
