@@ -106,9 +106,12 @@ tx = []; tw = []; ty = []
 
 # new algorithm, a tree based on x range 'buckets':
 
-for i in range(49): 
-    
-    x = 16 + i*16 + np.random.randint(-5, 5)
+for i in range(31): 
+    # try less whilst working on branches
+#    x = 16 + i*16 + np.random.randint(-5, 5)
+    x = 24 + i*24 + np.random.randint(-5, 5)
+      
+
     if (i==0): y = np.random.randint(300, 580); j = 0;
     else: y = 300 + (ty[i-j-1] - 120 + np.random.randint(0, 100)) % 290
 
@@ -129,6 +132,9 @@ for i in range(len(tx)):
         tw[i] -= 1
         ty[i] -= 1
 
+    # determine where to add branches, between say 480 and 400. left/right branches
+    bl = np.random.randint(300, 380); br = np.random.randint(300,380)
+
     while ty[i] != 0:
         for j in range(int(-tw[i]/2), int(tw[i]/2)):
             if (np.random.uniform(0, 1) < 0.35) and ((tx[i]+j) > 0) and ((tx[i]+j) < 799):
@@ -139,6 +145,32 @@ for i in range(len(tx)):
 
         if (np.random.uniform(0, 1) < 0.2) and (tx[i] < 797) and (tx[i] > 1): 
             tx[i] += int(np.random.uniform(-2,  2)) # wobbles
+
+        # add couple of branches per tree. use ln(y). set range to 1-20ish
+        # draw on graph paper to make clear how algorithm will work w.r.t. ranges
+
+        if ty[i] == bl: #draw all this branch
+            bx = int(tx[i] - tw[i]/2)
+            while bl != 0: # as unclear how long to loop for
+                # start by doing just thickness = 1
+                bl -= 1
+                x = 2 * int(bx - np.log(ty[i] - bl))
+                if (np.random.uniform(0, 1) < 0.85) and (x > 0) and (x < 799):
+                    img.putpixel((x, bl), (0, 0, 0))
+            
+                if (x < 0) or (x > 799):
+                    bl = 0
+                elif bl < bAv[x]:
+                    bl = 0
+
+        if ty[i] == br: #other branch. might have same value! so not elif
+            bx = tx[i] + tw[i]/2
+
+            br = 0
+
+
+
+
         
 img.save(fileout, "PNG")
 
