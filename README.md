@@ -21,3 +21,10 @@ Code that isn't web stuff, in the following folders:
 - ruby
 
 Folders might also have a codeGolf folder: playing around with challenges from codeGolf on stackexchange for shits & kicks  practice.
+
+- python codeGolf
+
+  - rForest: draw a randomised forest
+  
+  - simUniv: a universe simulation
+  
