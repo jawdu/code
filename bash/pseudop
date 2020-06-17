@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# search txt random for structure
+# like 'the ..... ' until , or . or ;
+# then 3 words
+# then some more

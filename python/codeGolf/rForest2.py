@@ -2,6 +2,8 @@
 
 #https://codegolf.stackexchange.com/questions/35835/draw-random-black-and-white-forest
 
+# v2 to try branches
+
 from PIL import Image
 import time
 import numpy as np
@@ -132,8 +134,8 @@ for i in range(len(tx)):
         tw[i] -= 1
         ty[i] -= 1
 
-    # determine where to add branches, between say 480 and 400. left/right branches
-    bl = np.random.randint(300, 380); br = np.random.randint(300,380)
+    # determine where to add branches. left/right branches
+    bl = np.random.randint(250, 320); br = np.random.randint(250,320)
 
     while ty[i] != 0:
         for j in range(int(-tw[i]/2), int(tw[i]/2)):
@@ -154,7 +156,7 @@ for i in range(len(tx)):
             while bl != 0: # as unclear how long to loop for
                 # start by doing just thickness = 1
                 bl -= 1
-                x = 2 * int(bx - np.log(ty[i] - bl))
+                x = int(bx - np.log((ty[i] - bl)/2))
                 if (np.random.uniform(0, 1) < 0.85) and (x > 0) and (x < 799):
                     img.putpixel((x, bl), (0, 0, 0))
             
