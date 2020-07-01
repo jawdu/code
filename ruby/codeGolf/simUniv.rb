@@ -21,12 +21,56 @@ class Universe
     # do a timestep
     # go backwards, avoid higgs->W/Z->other stuff in 1 timstep. still small chance (anti)top->W->other, meh
 
+    if @unstable[4] > 0
+      for i in 0..@unstable[4]
+        u.top_antitop(1) if rand < 0.1295
+      end
+    end
+
+    if @unstable[3] > 0
+      for i in 0..@unstable[3]
+        u.top_antitop(0) if rand < 0.1295
+      end
+    end
+
+    if @unstable[2] > 0
+      for i in 0..@unstable[2]
+          u.z_boson if rand < 0.5
+      end
+    end
+
+    if @unstable[1] > 0
+      for i in 0..@unstable[1]
+        u.w_boson if rand < 0.5
+      end
+    end
+
+    if @unstable[0] > 0
+      for i in 0..@unstable[0]
+        u.higgs if rand < 0.000433
+      end
+    end
 
     # housekeeping to finish
     @time += 0.1
     num_unstable = @unstable.inject(0, :+)
     return num_unstable, @time
   end
+
+  def top_antitop(top)
+    # top/anti top symmetric. so use single method. add +top, 1 = 1 for anti
+
+  end
+
+  def z_boson
+  end
+
+  def w_boson
+  end
+
+  def higgs
+  end
+
 end
 
 print "Number of initial higgs in simulation: "
