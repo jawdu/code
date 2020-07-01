@@ -1,6 +1,6 @@
 ### code
 
-Code that isn't web stuff, in the following folders:
+Code that isn't web stuff, by language. Folders might also have a codeGolf folder: playing around with ideas from codeGolf on stackexchange for practice.
 
 - bash
 
@@ -18,13 +18,15 @@ Code that isn't web stuff, in the following folders:
   
   - fractan: implementing Conway's fractran programming language
 
+  - python codeGolf
+
+    - rForest: draw a randomised forest
+  
+    - simUniv: a universe simulation
+
 - ruby
 
-Folders might also have a codeGolf folder: playing around with challenges from codeGolf on stackexchange for shits & kicks  practice.
+  - ruby codeGolf
 
-- python codeGolf
-
-  - rForest: draw a randomised forest
-  
-  - simUniv: a universe simulation
+    - simUniv: that same universe simulation, but in ruby!
   
