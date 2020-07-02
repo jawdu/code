@@ -70,7 +70,7 @@ class Universe
         else
           update = u[i].to_s + " " + @labels[i] + ", " + update
         end
-      elsif u.inject(0, :+) > 1
+      elsif u[i] > 1
         if u.inject(0, :+) == u[i]
           update = u[i].to_s + " " + @labels[i] + "s."
         elsif update == ""
@@ -91,8 +91,8 @@ class Universe
   def top_antitop(top)
     # top/anti top symmetric. so use single method. add +top, 1 = 1 for anti
     p = rand
-    @stable[3+top] -= 1
-    @stable[1] += 1
+    @unstable[3+top] -= 1
+    @unstable[1] += 1
     if p<0.3333
       @stable[3+top] += 1
     elsif p<0.6666
