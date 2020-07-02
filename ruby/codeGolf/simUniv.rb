@@ -182,18 +182,16 @@ class Universe
 
 end
 
+# start, set up new simulation
 print "Number of initial higgs in simulation: "
-
 num_unstable = gets.to_i
-
 u = Universe.new(num_unstable)
 #u.show_data
 
+# time step until no unstable particles left
 while (num_unstable > 0)
   num_unstable, time = u.time_step
 end
-
-#u.show_data
 
 printf("Simulation ended after %.1f yoctoseconds.", time)
 
