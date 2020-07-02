@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-#https://github.com/rubocop-hq/ruby-style-guide
+=begin
+    essentially same as the python one. uses class; splits universe state into stable/unstable array;
+    also symmetry top/anti top means can combine into one method
+=end
 
 class Universe
   def initialize(num_unstable)
@@ -8,6 +11,7 @@ class Universe
     # set up zero array
     @stable = Array.new(20, 0)
     @time = 0
+    @labels = %w(Higgs\ boson W\ boson Z\ boson top\ quark top\ antiquark gluon charm\ quark anticharm\ quark strange\ quark strange\ antiquark bottom\ quark bottom\ antiquark up\ quark up\ antiquark down\ quark down\ antiquark muon antimuon tau\ lepton antitau\ lepton electron positron neutrino antineutrino photon)
   end
 
   def show_data
@@ -51,6 +55,33 @@ class Universe
       end
     end
 
+    # print state of universe
+    # add arrays together to make loop tidier?
+    u = @unstable + @stable
+
+    update = ""
+#    for i in range(24, -1, -1)
+    24.downto(0) do |i|
+      if u[i] == 1
+        if u.inject(0, :+) == u[i]
+          update = u[i].to_s + " " + @labels[i] + "."
+        elsif update == ""
+          update = "and " + u[i].to_s + " " + @labels[i] + "."
+        else
+          update = u[i].to_s + " " + @labels[i] + ", " + update
+        end
+      elsif u.inject(0, :+) > 1
+        if u.inject(0, :+) == u[i]
+          update = u[i].to_s + " " + @labels[i] + "s."
+        elsif update == ""
+          update = "and " + u[i].to_s + " " + @labels[i] + "s."
+        else
+          update = u[i].to_s + " " + @labels[i] + "s, " + update
+        end
+      end
+    end    
+    puts "The universe contains #{update}"
+    
     # housekeeping to finish
     @time += 0.1
     num_unstable = @unstable.inject(0, :+)
@@ -156,13 +187,13 @@ print "Number of initial higgs in simulation: "
 num_unstable = gets.to_i
 
 u = Universe.new(num_unstable)
-u.show_data
+#u.show_data
 
 while (num_unstable > 0)
   num_unstable, time = u.time_step
 end
 
-u.show_data
+#u.show_data
 
 printf("Simulation ended after %.1f yoctoseconds.", time)
 
