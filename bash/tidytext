@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# personal script. From a text file with chunks of text between demarcators (e.g. strings of hyphens), 
+# use a input term to search and cut/paste to new file
+
+fileIn="$1"
+
+echo
+echo " ********** ________ tidytext ________ **********"
+echo
+
+if [ $# -eq 0 ]; then
+	# no filename provided
+	echo -e "No filename provided, please enter again: "
+
+	# do stuff
+
+elif [ "${fileIn##*.}" != "txt" ]; then
+
+	echo -e "File doesn't seem to be .txt, are you sure?"
+
+    # do stuff
+fi
+
+# make backup of input file in case
+
+cp $fileIn $(echo "$fileIn.tmp")
+
