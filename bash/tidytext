@@ -14,29 +14,58 @@ if [ $# -eq 0 ]; then
 	echo -e "No filename provided, please enter, or Q/q to quit: "
     read fileIn
     if [[ $fileIn == "Q" ]] || [[ $fileIn == "q" ]]; then
-        echo -e "ok, exiting, bye..."
+        echo "ok, exiting, bye..."
         exit 1
     fi
 fi
 
 if [[ ${fileIn##*.} != "txt" ]]; then
-	echo -e "File doesn't seem to be .txt, are you sure?"
-    # do stuff
+	echo -e "File doesn't seem to be .txt, are you sure? Q/q to quit, any other key to carry on: "
+    read tc
+    if [[ $tc == "Q" ]] || [[ $tc == "q" ]]; then
+        echo "ok, exiting, bye..."
+        exit 1
+    fi
 fi
 
 # make backup of input file in case
 cp $fileIn $(echo "$fileIn.tmp")
 
-# work out demarcator. eof up (as that's what I tend to do)
+# work out demarcator. eof up to find them, as that's where some will be
 
-# rough
-# for i = 0 until var not empty/whitespace and user says yes
-#   var = $(echo "tail -n$i $fileIn | head -n1")
-# end
+demarc=""
+i=1
+eof=$(wc -l $fileIn | awk '{ print $1}')
+while [[ -z "${demarc// }" ]]
+do
+    demarc=$(tail -n$i $fileIn | head -n1)
+    ((i++))
+    echo "i: $i, eof: $eof"
+    if [[ "$i" == "$eof" ]]; then
+        # end of file
+        echo "End of file, something not right, exiting"
+        exit 1
+    fi
+done
 
+echo "Is this right: $demarc"
+
+# now get the search string
+
+
+
+
+
+
+
+
+
+# options for the whitespace:
+#
 #   [[ -z "${param// }" ]]
 # ^ true if param is empty or contains just whitespace
 # or [[ $param = *[!\ ]* ]]   
 # ^ contains non-space (only space) cahracters, so opposite
 #   [[ $param = *[$' \t\n']* ]]
 #  ^ non whitespace (inc space, tab, newline)
+
