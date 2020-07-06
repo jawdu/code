@@ -13,13 +13,13 @@ if [ $# -eq 0 ]; then
 	# no filename provided
 	echo -e "No filename provided, please enter, or Q/q to quit: "
     read fileIn
-    if [ "$fileIn" = "Q" ] || [ "$fileIn" ="q" ]; then
+    if [[ $fileIn == "Q" ]] || [[ $fileIn == "q" ]]; then
         echo -e "ok, exiting, bye..."
         exit 1
     fi
 fi
 
-if [ "${fileIn##*.}" != "txt" ]; then
+if [[ ${fileIn##*.} != "txt" ]]; then
 	echo -e "File doesn't seem to be .txt, are you sure?"
     # do stuff
 fi
