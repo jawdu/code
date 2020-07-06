@@ -11,7 +11,7 @@ echo
 
 if [ $# -eq 0 ]; then
 	# no filename provided
-	echo -e "No filename provided, please enter, or Q/q to quit: "
+	echo "No filename provided, please enter, or Q/q to quit: "
     read fileIn
     if [[ $fileIn == "Q" ]] || [[ $fileIn == "q" ]]; then
         echo "ok, exiting, bye..."
@@ -20,7 +20,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [[ ${fileIn##*.} != "txt" ]]; then
-	echo -e "File doesn't seem to be .txt, are you sure? Q/q to quit, any other key to carry on: "
+	echo "File doesn't seem to be .txt, are you sure? Q/q to quit, any other key to carry on: "
     read tc
     if [[ $tc == "Q" ]] || [[ $tc == "q" ]]; then
         echo "ok, exiting, bye..."
@@ -28,7 +28,13 @@ if [[ ${fileIn##*.} != "txt" ]]; then
     fi
 fi
 
+if [ ! -f $fileIn ]; then
+    echo "File given doesn't exist, exiting..."
+    exit 1
+fi
+
 # make backup of input file in case
+
 cp $fileIn $(echo "$fileIn.tmp")
 
 # work out demarcator. eof up to find them, as that's where some will be
@@ -36,14 +42,14 @@ cp $fileIn $(echo "$fileIn.tmp")
 demarc=""
 i=1
 eof=$(wc -l $fileIn | awk '{ print $1}')
+
 while [[ -z "${demarc// }" ]]
 do
     demarc=$(tail -n$i $fileIn | head -n1)
     ((i++))
-    echo "i: $i, eof: $eof"
     if [[ "$i" == "$eof" ]]; then
         # end of file
-        echo "End of file, something not right, exiting"
+        echo "End of file with $eof lines, something not right, exiting"
         exit 1
     fi
 done
@@ -52,11 +58,52 @@ echo "Is this right: $demarc"
 
 # now get the search string
 
+echo "Enter string to use for searching: "
+read sstring
+
+#put line numbers of result into array, in reverse order
+linenums=(`grep -n "$sstring" $fileIn | sort -nr | cut -f1 -d:`)
+ 
+i=0
+saveall=false
+while [[ "$i" -lt "${#array[@]}" ]] # rather than for i in "${linenums[@]}"
+do
+    num1=0
+    j="$linenums[i]"
+    while [[ "$num1" == "0" ]]
+    do
+        tline=$(tail -n$j $fileIn | head -n1)
+        if [[ "$tline" == "$demarc" ]]; then
+            num1="$tline"
+        fi
+        ((j--))
+    done
+    # other way now
+    num2=0
+    j="$linenums[i]"
+    while [[ "$num2" == "0" ]]
+    do
+        tline=$(tail -n$j $fileIn | head -n1)
+        if [[ "$tline" == "$demarc" ]]; then
+            num2="$tline"
+        fi
+        ((j++))
+    done
+
+    ((i++))
+
+    # if number1 > linenums[i+1] && i < len(linenums), i++
+    # also num2 -1 at some point
 
 
-
-
-
+#    if [[ "$saveall" == "false" ]]; then
+#       echo "Go ahead with the cut and save? y for yes, a for yes to all, any other key for no: "
+#        read sa
+#        if [[ "$sa" == "y" ]]; then
+            #
+#        fi
+#    fi
+done
 
 
 
