@@ -63,39 +63,56 @@ read sstring
 
 #put line numbers of result into array, in reverse order
 linenums=(`grep -n "$sstring" $fileIn | sort -nr | cut -f1 -d:`)
- 
+
+echo "Enter output filename: "
+read fileOut
+
 i=0
 saveall=false
-while [[ "$i" -lt "${#array[@]}" ]] # rather than for i in "${linenums[@]}"
+while [[ "$i" -lt "${#linenums[@]}" ]] # rather than for i in "${linenums[@]}"
 do
     num1=0
-    j="$linenums[i]"
+    j=$(($eof - ${linenums[i]})) # "${linenums[i]}" 
     while [[ "$num1" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
+        echo $tline
         if [[ "$tline" == "$demarc" ]]; then
-            num1="$tline"
+            num1=$(($eof - $j))
         fi
         ((j--))
     done
     # other way now
     num2=0
-    j="$linenums[i]"
+    j=$(($eof - ${linenums[i]})) 
     while [[ "$num2" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
+        echo $tline 
         if [[ "$tline" == "$demarc" ]]; then
-            num2="$tline"
+            num2=$(($eof - $j))
         fi
         ((j++))
     done
-
+    ((num2--)) # so correct end point
     ((i++))
 
-    # if number1 > linenums[i+1] && i < len(linenums), i++
-    # also num2 -1 at some point
+    # check if next linenum matches were in the segment we just dealt with
+    k="$i"
+    while [[ "$k" -lt "${#linenums[@]}" ]]
+    do
+        if [[ "${linenums[k+1]}" -gt "$num1" ]]; then # skip an linenumber
+            ((i++))
+        fi 
+        ((k++))
+    done
 
+    # cut, to $fileOut
 
+    sed -n '$num1,$num2p' $fileIn >> $fileOut
+    sed '$num1,$num2d' $fileIn
+    # -i but issues...? do it 2 steps (urgh)
+    
 #    if [[ "$saveall" == "false" ]]; then
 #       echo "Go ahead with the cut and save? y for yes, a for yes to all, any other key for no: "
 #        read sa
