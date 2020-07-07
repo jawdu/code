@@ -76,7 +76,7 @@ do
     while [[ "$num1" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        echo $tline
+        #echo $tline
         if [[ "$tline" == "$demarc" ]]; then
             num1=$(($eof - $j))
         fi
@@ -88,13 +88,13 @@ do
     while [[ "$num2" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        echo $tline 
+        #echo $tline 
         if [[ "$tline" == "$demarc" ]]; then
             num2=$(($eof - $j))
         fi
         ((j++))
     done
-    ((num2--)) # so correct end point
+    ((num2++)) # correct end point
     ((i++))
 
     # check if next linenum matches were in the segment we just dealt with
@@ -109,9 +109,11 @@ do
 
     # cut, to $fileOut
 
-    sed -n '$num1,$num2p' $fileIn >> $fileOut
-    sed '$num1,$num2d' $fileIn
-    # -i but issues...? do it 2 steps (urgh)
+    #echo "num1: $num1 && num2: $num2"
+
+    sed -n ''"$num2"','"$num1"'p' $fileIn >> $fileOut
+    sed -i ''"$num2"','"$num1"'d' $fileIn
+    # -i but issues using with -n, do it 2 steps for now
     
 #    if [[ "$saveall" == "false" ]]; then
 #       echo "Go ahead with the cut and save? y for yes, a for yes to all, any other key for no: "
