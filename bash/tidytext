@@ -72,11 +72,14 @@ saveall=false
 while [[ "$i" -lt "${#linenums[@]}" ]] # rather than for i in "${linenums[@]}"
 do
     num1=0
-    j=$(($eof - ${linenums[i]})) # "${linenums[i]}" 
+    # update eof
+    eof=$(wc -l $fileIn | awk '{ print $1}')
+    j=$(($eof - ${linenums[i]})) 
+    echo "start of loop. i: $i  j: $j linenum: ${linenums[i]}"
     while [[ "$num1" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        #echo $tline
+        #echo "At j = $j ::: $tline "
         if [[ "$tline" == "$demarc" ]]; then
             num1=$(($eof - $j))
         fi
@@ -84,11 +87,11 @@ do
     done
     # other way now
     num2=0
-    j=$(($eof - ${linenums[i]})) 
+    j=$(($eof - ${linenums[i]}))
     while [[ "$num2" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        #echo $tline 
+        #echo "At j = $j ::: $tline " 
         if [[ "$tline" == "$demarc" ]]; then
             num2=$(($eof - $j))
         fi
@@ -108,9 +111,6 @@ do
     done
 
     # cut, to $fileOut
-
-    #echo "num1: $num1 && num2: $num2"
-
     sed -n ''"$num2"','"$num1"'p' $fileIn >> $fileOut
     sed -i ''"$num2"','"$num1"'d' $fileIn
     # -i but issues using with -n, do it 2 steps for now
