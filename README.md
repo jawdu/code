@@ -7,7 +7,9 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
   - lpnum: something to tidy up badly/untagged albums
   
   - subtime: manually create first run subtitle timings
-  
+
+  - tidytext: cut&paste into newfile, tailored & obscurely useful for me and my txt scrapbooks
+ 
 - cpp
 
   - cstrings: rewrote my MPhys disseration code, from MATLAB into C++
