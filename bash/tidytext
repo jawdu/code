@@ -2,6 +2,8 @@
 
 # personal script. From a text file with chunks of text between demarcators (e.g. strings of hyphens), 
 # use a input term to search and cut/paste to new file
+# to do: case sensitive at moment. option?
+# y/n/save all?
 
 fileIn="$1"
 
@@ -70,7 +72,7 @@ read fileOut
 i=0
 saveall=false
 
-echo ${linenums[*]}
+#echo ${linenums[*]}
 
 while [[ "$i" -lt "${#linenums[@]}" ]] # rather than for i in "${linenums[@]}"
 do
@@ -78,11 +80,11 @@ do
     # update eof
     eof=$(wc -l $fileIn | awk '{ print $1}')
     j=$(($eof - ${linenums[i]} + 1)) 
-    echo "start of loop. new EOF: $eof i: $i  j: $j linenum: ${linenums[i]}"
+    #echo "start of loop. new EOF: $eof i: $i  j: $j linenum: ${linenums[i]}"
     while [[ "$num1" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        echo "At j = $j ::: $tline "
+        #echo "At j = $j ::: $tline "
         if [[ "$tline" == "$demarc" ]]; then
             num1=$(($eof - $j +1))
         fi
@@ -90,17 +92,18 @@ do
     done
     # other way now
     num2=0
-    j=$(($eof - ${linenums[i]})) # +1 makes weird...
+    j=$(($eof - ${linenums[i]} +1)) # +1 makes weird...
     while [[ "$num2" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        echo "At j = $j ::: $tline " 
+        #echo "At j = $j ::: $tline " 
         if [[ "$tline" == "$demarc" ]]; then
             num2=$(($eof - $j))
         fi
         ((j++))
     done
-    #((num2--)) # correct end point
+    ((num1--))
+    ((num2++)) # correct end points
     ((i++))
 
     # check if next linenum matches were in the segment we just dealt with
@@ -108,16 +111,15 @@ do
     while [[ "$k" -lt "${#linenums[@]}" ]]
     do
         if [[ "${linenums[k]}" -gt "$num2" ]]; then # skip an linenumber
-            echo "just skipped a line, k = $k, i = $i"
+            #echo "just skipped a line, k = $k, i = $i"
             ((i++))
         fi 
         ((k++))
     done
 
-    echo "num2: $num2 and num1: $num1"
     # cut, to $fileOut
     sed -n ''"$num2"','"$num1"'p' $fileIn >> $fileOut
-#    sed -i ''"$num2"','"$num1"'d' $fileIn
+    sed -i ''"$num2"','"$num1"'d' $fileIn
     # -i but issues using with -n, do it 2 steps for now
     
 #    if [[ "$saveall" == "false" ]]; then
@@ -129,7 +131,7 @@ do
 #    fi
 done
 
-
+echo "All done, exiting."
 
 # options for the whitespace:
 #
