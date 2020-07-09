@@ -69,10 +69,13 @@ linenums=(`grep -n "$sstring" $fileIn | sort -nr | cut -f1 -d:`)
 echo "Enter output filename: "
 read fileOut
 
-i=0
-saveall=false
+if [ -z "$fileOut" ]; then
+    fileOut=$(echo "$fileIn.out")
+    echo "No filename given, using generic: $fileOut"
+fi
 
-#echo ${linenums[*]}
+i=0
+#saveall=false
 
 while [[ "$i" -lt "${#linenums[@]}" ]] # rather than for i in "${linenums[@]}"
 do
@@ -80,11 +83,9 @@ do
     # update eof
     eof=$(wc -l $fileIn | awk '{ print $1}')
     j=$(($eof - ${linenums[i]} + 1)) 
-    #echo "start of loop. new EOF: $eof i: $i  j: $j linenum: ${linenums[i]}"
     while [[ "$num1" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        #echo "At j = $j ::: $tline "
         if [[ "$tline" == "$demarc" ]]; then
             num1=$(($eof - $j +1))
         fi
@@ -96,7 +97,6 @@ do
     while [[ "$num2" == "0" ]]
     do
         tline=$(tail -n$j $fileIn | head -n1)
-        #echo "At j = $j ::: $tline " 
         if [[ "$tline" == "$demarc" ]]; then
             num2=$(($eof - $j))
         fi
@@ -111,7 +111,6 @@ do
     while [[ "$k" -lt "${#linenums[@]}" ]]
     do
         if [[ "${linenums[k]}" -gt "$num2" ]]; then # skip an linenumber
-            #echo "just skipped a line, k = $k, i = $i"
             ((i++))
         fi 
         ((k++))
@@ -122,13 +121,6 @@ do
     sed -i ''"$num2"','"$num1"'d' $fileIn
     # -i but issues using with -n, do it 2 steps for now
     
-#    if [[ "$saveall" == "false" ]]; then
-#       echo "Go ahead with the cut and save? y for yes, a for yes to all, any other key for no: "
-#        read sa
-#        if [[ "$sa" == "y" ]]; then
-            #
-#        fi
-#    fi
 done
 
 echo "All done, exiting."
