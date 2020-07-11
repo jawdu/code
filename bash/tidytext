@@ -36,11 +36,9 @@ if [ ! -f $fileIn ]; then
 fi
 
 # make backup of input file in case
-
 cp $fileIn $(echo "$fileIn.tmp")
 
 # work out demarcator. eof up to find them, as that's where some will be
-
 demarc=""
 i=1
 eof=$(wc -l $fileIn | awk '{ print $1}')
@@ -56,10 +54,14 @@ do
     fi
 done
 
-echo "Is this right: $demarc"
+echo "Is this right to demarcate with? Q/q if not to quit, otherwise will proceed: $demarc"
+read dq
+if [[ $dq == "Q" ]] || [[ $dq == "q" ]]; then
+    echo "ok, exiting, bye..."
+    exit 1
+fi
 
 # now get the search string
-
 echo "Enter string to use for searching: "
 read sstring
 
