@@ -5,7 +5,8 @@
     requires https://github.com/jstrait/wavefile
         --> https://github.com/jstrait/wavefile/blob/master/examples/generate_square_wave.rb
 
-    step 1: generate some noise, make wav
+    step 1: generate some noise, test memory robustness, will it need splitting?
+    step n: some libraries?
 =end
 
 require_relative 'gclass'
