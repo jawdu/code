@@ -28,6 +28,8 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
 - ruby
 
+  - glitchino: a medium term create glitch audio project 
+
   - ruby codeGolf
 
     - simUniv: that same universe simulation, but in ruby!
