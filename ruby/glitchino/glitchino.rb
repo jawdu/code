@@ -5,21 +5,22 @@
     requires https://github.com/jstrait/wavefile
         --> https://github.com/jstrait/wavefile/blob/master/examples/generate_square_wave.rb
 
-    step 1: generate some noise, test memory robustness, will it need splitting?
+    step 1: generate some noise, test memory robustness, seems ok for ~10s
     step n: some libraries?
+    also: mono. think about stereo?
 =end
 
 require_relative 'gclass'
 require 'wavefile'
 include WaveFile
 
-print "\n .'._ _'-_'..`` GLITCHINO '/ ,[- -!'' `|\n"
+print "\n .'._ _'-_'..`` GLITCHINO '/ ,-'`- -__'' `|\n"
 
 # get some parameters from user
 
 # new sound object
 
-g = Glitch.new(5) # 5 = duration in seconds
+g = Glitch.new(5) # 5 = duration in seconds for now
 
 # make wav.
 
