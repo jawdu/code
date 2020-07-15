@@ -3,13 +3,27 @@
 class Glitch
   def initialize(duration)
     @waveform = Array.new
+    # @sr will be len(@waveform)
+    @sr = duration * 44100
   end
 
   def test_noise
     # setup basic glitchiness
-    # loop over duration * 44100
-    @waveform = ([0.5] * 100000) + ([-0.5] * 100000)
+    @sr.times do
+        @waveform.push(rand(-1.0..1.0))
+    end
+  end
 
+  def jag_noise
+    # make a sort of 'mountain' shape.
+    # parameters to generate: t1...3, a1...3. a2 < a1, a3. zeros t0, t4
+  end
+
+  def add_synth
+    # generate a small synth glitch
+    # have some input parameters....
+    # start with harmonic form, so y(t) = Sigma [ r_k.cos (2pi.k.f_0.t + phi_k) ] r can be r(t)
+    # inharmonic: y(t) = Sigma [ r_k(t).cos (2.pi.f_k.t + phi_k) ]
   end
 
   def write_wav
