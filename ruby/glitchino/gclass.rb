@@ -10,13 +10,17 @@ class Glitch
   def test_noise
     # setup basic glitchiness
     @sr.times do
-        @waveform.push(rand(-1.0..1.0))
+        @waveform.push(rand(-0.2..0.2))
     end
   end
 
-  def jag_noise
+  def jag_noise(t0)
     # make a sort of 'mountain' shape.
     # parameters to generate: t1...3, a1...3. a2 < a1, a3. zeros t0, t4
+    # think: what time units? seconds or sample rate?
+    t1 = t0 + rand
+    t2 = t1 + rand #etc
+
   end
 
   def add_synth
