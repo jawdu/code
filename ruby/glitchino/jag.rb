@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+class Jag
+    # make a sort of 'mountain' shape. linear between 5 points.
+    # parameters to generate: t1...3, a1...3. a2 < a1, a3. zeros t0, t4
+    # change from before: t0 is 0 by default.
+  def initialize
+    @jg = Array.new
+  end
+
+  def jag_noise
+    t1 = rand(0.01..0.02)
+    t2 = t1 + rand(0.01..0.02)
+    t3 = t2 + rand(0.01..0.02)
+    t4 = t3 + rand(0.01..0.02)
+    t1 = tsr(t1)
+    t2 = tsr(t2)
+    t3 = tsr(t3)
+    t4 = tsr(t4)
+    a1 = rand(0.4..0.8)
+    a3 = rand(0.4..0.8)
+    a2 = rand(0.1..[a1,a3].min)
+    g1 = a1 / t1
+    g2 = (a2 - a1) / (t2 - t1)
+    g3 = (a3 - a2) / (t3 - t2)
+    g4 = -a3 / (t4 - t3)
+
+    t1.times do |i|
+      @jg.push(g1 * i)
+    end
+    (t2-t1).times do |i|
+      @jg.push(g2 * (i+t1) + a1)
+    end
+    (t3-t2).times do |i|
+      @jg.push(g3 * (i+t2))
+    end
+    (t4-t3).times do |i|
+      @jg.push(g4 * (i+t3) + a3)
+    end
+  end
+end
