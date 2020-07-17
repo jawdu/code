@@ -17,7 +17,7 @@
 
 =end
 
-require_relative 'gclass'
+require_relative 'glitch'
 require_relative 'jag'
 require 'wavefile'
 include WaveFile
