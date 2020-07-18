@@ -10,11 +10,9 @@
     also: mono. think about stereo?
     naive 'random' - randomise each input/parameter or whatever. but what about something more, re:structure
     --> something more open when 1 seed can react 'chaotically' to create great unpredicatblity. brood on this.
-    make little modules for types of glitch. try o form bottom up. like wavelets
     maybe idea of library of .wavs  -espec for 'synths' - optino to display available files, etc
 
-    ????? https://stackoverflow.com/questions/1978270/whats-a-good-ruby-idiom-for-breaking-up-a-large-class-into-modules
-
+    ??? maybe i need to python this. stick for now. easy to convert.
 =end
 
 require_relative 'glitch'
