@@ -15,8 +15,9 @@ class Glitch
         #@waveform.push(rand(-0.2..0.2))
     end
 
-    for i in 0..4 do
-        jag_noise(i+rand(0.1..0.5))
+    5.times do |i|
+        j = Jag.new
+        # now add to @waveform at (i+rand(0.1..0.5))
     end
   end
 
