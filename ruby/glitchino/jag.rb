@@ -3,6 +3,7 @@
 class Jag
     # make a sort of 'mountain' shape. linear between 5 points.
     # parameters to generate: t1...3, a1...3. a2 < a1, a3. zeros t0, t4
+    # some have weird overlap between t_i but, hey, it's a glitch.
   def initialize
     class << self
       attr_reader :jg
@@ -10,20 +11,15 @@ class Jag
     @jg = Array.new
   end
 
-  def tsr(t)
-    # convert seconds to sample rate index integer. duplicate, for now...
-    t = (44100*t).to_i
-  end
-
   def jag_noise
     t1 = rand(0.01..0.02)
     t2 = t1 + rand(0.01..0.02)
     t3 = t2 + rand(0.01..0.02)
     t4 = t3 + rand(0.01..0.02)
-    t1 = tsr(t1)
-    t2 = tsr(t2)
-    t3 = tsr(t3)
-    t4 = tsr(t4)
+    t1 = (44100*t1).to_i
+    t2 = (44100*t2).to_i
+    t3 = (44100*t3).to_i
+    t4 = (44100*t4).to_i
     a1 = rand(0.4..0.8)
     a3 = rand(0.4..0.8)
     a2 = rand(0.1..[a1,a3].min)

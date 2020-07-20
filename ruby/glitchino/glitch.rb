@@ -16,22 +16,13 @@ class Glitch
     end
 
     5.times do |i|
+        offset = rand(0.1..0.3)
         j = Jag.new
         j.jag_noise
-        # now add to @waveform at (i+rand(0.1..0.5))
+        (j.jg.length).times do |k|
+          @waveform[(k + 44100*(i+offset)).to_i] = j.jg[k]
+        end
     end
-  end
-
-  def tsr(t)
-    # convert seconds to sample rate index integer. duplicated in jag, atm...
-    t = (44100*t).to_i
-  end
-
-  def add_synth
-    # generate a small synth glitch
-    # have some input parameters.... or set up 3-5 with a constrained rand range, that sound ok
-    # start with harmonic form, so y(t) = Sigma [ r_k.cos (2pi.k.f_0.t + phi_k) ] r can be r(t)
-    # inharmonic: y(t) = Sigma [ r_k(t).cos (2.pi.f_k.t + phi_k) ]
   end
 
   def write_wav
