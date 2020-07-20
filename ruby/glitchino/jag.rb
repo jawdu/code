@@ -3,9 +3,16 @@
 class Jag
     # make a sort of 'mountain' shape. linear between 5 points.
     # parameters to generate: t1...3, a1...3. a2 < a1, a3. zeros t0, t4
-    # change from before: t0 is 0 by default.
   def initialize
+    class << self
+      attr_reader :jg
+    end
     @jg = Array.new
+  end
+
+  def tsr(t)
+    # convert seconds to sample rate index integer. duplicate, for now...
+    t = (44100*t).to_i
   end
 
   def jag_noise
