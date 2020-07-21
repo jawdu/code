@@ -3,7 +3,6 @@
 class Jag
     # make a sort of 'mountain' shape. linear between 5 points.
     # parameters to generate: t1...3, a1...3. a2 < a1, a3. zeros t0, t4
-    # some have weird overlap between t_i but, hey, it's a glitch.
   def initialize
     class << self
       attr_reader :jg
@@ -32,13 +31,13 @@ class Jag
       @jg.push(g1 * i)
     end
     (t2-t1).times do |i|
-      @jg.push(g2 * (i+t1) + a1)
+      @jg.push(g2 * i + a1)
     end
     (t3-t2).times do |i|
-      @jg.push(g3 * (i+t2))
+      @jg.push(g3 * i)
     end
     (t4-t3).times do |i|
-      @jg.push(g4 * (i+t3) + a3)
+      @jg.push(g4 * i + a3)
     end
   end
 end
