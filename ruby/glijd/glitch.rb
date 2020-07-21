@@ -14,14 +14,12 @@ class Glitch
         @waveform.push(0.0)        
     end
 
-    5.times do |i|
-        offset = rand(0.1..0.3)
-        j = Jag.new
-        j.jag_noise
-        (j.jg.length).times do |k|
-          @waveform[(k + 44100*(i+offset)).to_i] = j.jg[k]
-        end
+    j = Synth1.new
+    j.syn_1
+    (j.syn.length).times do |k|
+      @waveform[k] = j.syn[k]
     end
+  
   end
 
   def write_wav
