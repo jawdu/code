@@ -2,7 +2,7 @@
 
 =begin
     X(t+1) = a * X(t) * (1 - X(t)) 
-    --> a between 3 and 3.53: oscillations. x(t) is originally a population ratio. so initial vals 0.n ish?
+    --> a between 3.53 and 4.00: oscillations. x(t) is originally a population ratio. so initial vals 0.n ish?
 
     henon strange attractor:
         x(n+1) = 1 + y(n) - a*x(n)*x(n)
@@ -13,6 +13,9 @@
     inharmonic: y(t) = sum [ r_k(t).cos (2.pi.f_k.t + phi_k) ]
 
     https://www.cim.mcgill.ca/~clark/nordmodularbook/nm_algorithmic.html
+
+    *** modulation? like as a glitch, turn into sorta step function, average each c.5 points
+
 =end
 
 class Synth1
@@ -25,24 +28,29 @@ class Synth1
 
   def syn_1
     t = 0.0
-    te = 1.0
-    a1 = rand(3.0..3.5)
-    a2 = rand(3.0..3.5)
-    r1 = rand(0.3..0.7)
-    r2 = rand(0.2..0.7)
-    f1 = rand(200..700)
-    f2 = rand(100..600)
-    n = 0.5 # normalisation
+    te = 2.0
+    n = 5
+    a = Array.new(n) { rand(3.1..3.99) }
+    # previously a split, a1 = rand(3.6..3.99), a2 = rand(3.1..3.50)
+    r = Array.new(n) { rand(0.2..0.7) }
+    f = Array.new(n) { rand(100..400) }
     while t < te
-        @syn.push(n * r1 * cos(6.28 * f1 * t) + n * r2 * cos(6.28 * f2 * t))
-        r1 = a1 * r1 * (1 - r1)
-        r2 = a2 * r2 * (1 - r2)
+        v = 0.0
+        n.times do |k|
+            v = v + r[k]*cos(6.28*f[k]*t)
+            r[k] = a[k]*r[k]*(1-r[k])
+        end
+        @syn.push(v/n)
         t = t + (1.0/44100.0)        
     end
   end
 
   def syn_glitch
     # glitch up the completed synth?
+  end
+
+  def syn_fade
+    # linear fade in & out
   end
 
 end

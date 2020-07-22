@@ -16,10 +16,10 @@ class Glitch
 
     j = Synth1.new
     j.syn_1
+    j.syn_fade
     (j.syn.length).times do |k|
       @waveform[k] = j.syn[k]
     end
-  
   end
 
   def write_wav
