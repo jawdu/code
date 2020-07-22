@@ -13,9 +13,6 @@
     inharmonic: y(t) = sum [ r_k(t).cos (2.pi.f_k.t + phi_k) ]
 
     https://www.cim.mcgill.ca/~clark/nordmodularbook/nm_algorithmic.html
-
-    *** modulation? like as a glitch, turn into sorta step function, average each c.5 points
-
 =end
 
 class Synth1
@@ -28,12 +25,12 @@ class Synth1
 
   def syn_1
     t = 0.0
-    te = 2.0
-    n = 5
+    te = 4.0
+    n = rand(2..10)
     a = Array.new(n) { rand(3.1..3.99) }
     # previously a split, a1 = rand(3.6..3.99), a2 = rand(3.1..3.50)
     r = Array.new(n) { rand(0.2..0.7) }
-    f = Array.new(n) { rand(100..400) }
+    f = Array.new(n) { rand(50..600) }
     while t < te
         v = 0.0
         n.times do |k|
@@ -47,10 +44,20 @@ class Synth1
 
   def syn_glitch
     # glitch up the completed synth?
+    # or modulate (partially) - like say every 10-100 samples, flatten out 5-20? samples
   end
 
   def syn_fade
     # linear fade in & out
+    a = rand((0.1*@syn.length)..(0.45*@syn.length)).to_i
+    b = rand((0.55*@syn.length)..(0.9*@syn.length)).to_i
+    a.times do |k|
+        @syn[k] = k*@syn[k]/a
+    end
+    (b..(@syn.length-1)).each do |k|
+        @syn[k] = (@syn.length-k)*@syn[k]/(@syn.length - b)
+    end
+
   end
 
 end
