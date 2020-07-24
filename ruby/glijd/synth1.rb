@@ -43,8 +43,22 @@ class Synth1
   end
 
   def syn_glitch
-    # glitch up the completed synth?
-    # or modulate (partially) - like say every 10-100 samples, flatten out 5-20? samples
+    # partially flatten out chunks
+    p = 0
+    while p < (@syn.length-100) do # -100 to make things easier at end of array (when faded anyway)
+        if rand(0.0..1.0) < 0.15
+            q = rand(30..100) 
+            n = 0.0      
+            q.times do |k|
+                n += @syn[k+p]/q
+            end
+            q.times do |k|
+                @syn[k+p] = n
+            end
+            p += q
+        end
+        p += rand(10..100)
+    end
   end
 
   def syn_fade

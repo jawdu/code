@@ -8,7 +8,7 @@
     step 1: generate some noise, test memory robustness, seems ok for ~10s
     step n: some libraries? e.g. vinyl crackle - some sort of random sampling after getting wavs
     modified bits of beats?
-    also: mono. think about stereo?
+    also: mono. think about stereo? even naive of looping through @wave, randomly vary say 20% samples
     naive 'random' - randomise each input/parameter or whatever. but what about something more, re:structure
     --> something more open when 1 seed can react 'chaotically' to create great unpredicatblity. brood on this.
     maybe idea of library of .wavs  -espec for 'synths' - optino to display available files, etc
