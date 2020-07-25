@@ -23,15 +23,14 @@ class Synth1
     @syn = Array.new
   end
 
-  def syn_1
+  def syn_1(time)
     t = 0.0
-    te = 4.0
     n = rand(2..10)
     a = Array.new(n) { rand(3.1..3.99) }
     # previously a split, a1 = rand(3.6..3.99), a2 = rand(3.1..3.50)
     r = Array.new(n) { rand(0.2..0.7) }
     f = Array.new(n) { rand(50..600) }
-    while t < te
+    while t < time
         v = 0.0
         n.times do |k|
             v = v + r[k]*cos(6.28*f[k]*t)

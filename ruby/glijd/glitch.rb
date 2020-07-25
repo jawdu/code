@@ -1,21 +1,21 @@
 #!/usr/bin/env ruby
 
 class Glitch
-  def initialize(duration)
+  def initialize(time)
     @waveform = Array.new
     # len(@waveform) will be @sr
-    @duration = duration
-    @sr = duration * 44100
+    #@duration = time
+    @sr = (time * 44100).to_i
   end
 
-  def test_noise
+  def test_noise(time)
     # try stuff out
     @sr.times do
         @waveform.push(0.0)        
     end
 
     j = Synth1.new
-    j.syn_1
+    j.syn_1(time) 
     j.syn_glitch
     j.syn_fade
     (j.syn.length).times do |k|
@@ -38,7 +38,7 @@ end
 =begin
     this is e.g. adding the jag noise.
     
-    5.times do |i|
+    5.times do |i| --> this is deprecated. use the synth1 flatten method to distribute over the duration
         offset = rand(0.1..0.3)
         j = Jag.new
         j.jag_noise

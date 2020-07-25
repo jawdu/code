@@ -23,8 +23,10 @@ include Math
 
 print "\n .'._ _'-_'..`` GLIJD '/ ,-'`- -__'' `|\n"
 
-g = Glitch.new(5) # 5 = duration in seconds for now
-g.test_noise
+time = 5.0
+
+g = Glitch.new(time) 
+g.test_noise(time)
 g.write_wav
 
 print "\n ..,,done.,..,,\n\n"
