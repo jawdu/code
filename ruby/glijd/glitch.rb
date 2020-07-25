@@ -4,7 +4,6 @@ class Glitch
   def initialize(time)
     @waveform = Array.new
     # len(@waveform) will be @sr
-    #@duration = time
     @sr = (time * 44100).to_i
   end
 
@@ -13,13 +12,32 @@ class Glitch
     @sr.times do
         @waveform.push(0.0)        
     end
+    add_synth(time)
+    add_jag
+  end
 
+  def add_synth(time)
     j = Synth1.new
     j.syn_1(time) 
     j.syn_glitch
     j.syn_fade
     (j.syn.length).times do |k|
       @waveform[k] = j.syn[k]
+    end
+  end
+
+  def add_jag
+    p = 0
+    while p < (@waveform.length - 5000) do
+      if rand(0.0..1.0) < 0.03
+        j = Jag.new
+        j.jag_noise
+        (j.jg.length).times do |k|
+          @waveform[k + p] += j.jg[k]
+          p += 1
+        end
+        p += rand(750..1500)
+      end
     end
   end
 
@@ -35,16 +53,3 @@ class Glitch
   end
 end
 
-=begin
-    this is e.g. adding the jag noise.
-    
-    5.times do |i| --> this is deprecated. use the synth1 flatten method to distribute over the duration
-        offset = rand(0.1..0.3)
-        j = Jag.new
-        j.jag_noise
-        (j.jg.length).times do |k|
-          @waveform[(k + 44100*(i+offset)).to_i] = j.jg[k]
-        end
-    end
-
-=end
