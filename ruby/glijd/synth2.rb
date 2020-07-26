@@ -1,16 +1,19 @@
 #!/usr/bin/env ruby
 
 =begin
-    X(t+1) = a * X(t) * (1 - X(t)) 
-    --> a between 3.53 and 4.00: oscillations. x(t) is originally a population ratio. so initial vals 0.n ish?
+    synth2: try inharmonic, also use henon form
+
+    henon strange attractor:
+        x(n+1) = 1 + y(n) - a*x(n)*x(n)
+        y(n+1) = b*x(n) 
+    --> e.g. one is a = 1.4, b = 0.3 so that order of magnitude?
 
     harmonic form: y(t) = sum [ r_k.cos (2pi.k.f_0.t + phi_k) ] r can be r(t)
     inharmonic: y(t) = sum [ r_k(t).cos (2.pi.f_k.t + phi_k) ]
 
-    https://www.cim.mcgill.ca/~clark/nordmodularbook/nm_algorithmic.html
 =end
 
-class Synth1
+class Synth2
   def initialize
     class << self
       attr_reader :syn
@@ -18,7 +21,7 @@ class Synth1
     @syn = Array.new
   end
 
-  def syn_1(time)
+  def syn_2(time)
     t = 0.0
     n = rand(2..10)
     a = Array.new(n) { rand(3.1..3.99) }

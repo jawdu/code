@@ -17,6 +17,7 @@
 require_relative 'glitch'
 require_relative 'jag'
 require_relative 'synth1'
+require_relative 'synth2'
 require 'wavefile'
 include WaveFile
 include Math
