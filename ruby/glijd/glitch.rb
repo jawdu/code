@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 class Glitch
+  #include Synmod
   def initialize(time)
     @waveform = Array.new
     # len(@waveform) will be @sr
@@ -12,8 +13,9 @@ class Glitch
     @sr.times do
         @waveform.push(0.0)        
     end
-    add_synth(time, 2)
+    add_synth(time, 1)
     #add_jag
+    # produts of synth1, synth2? maybe add this into add_synth
   end
 
   def add_synth(time, n)
@@ -24,8 +26,8 @@ class Glitch
       j = Synth1.new
       j.syn_1(time)
     end 
-    j.syn_glitch
-    j.syn_fade
+    Synmod.syn_glitch(j.syn)    
+    Synmod.syn_fade(j.syn)    
     (j.syn.length).times do |k|
       @waveform[k] = j.syn[k]
     end

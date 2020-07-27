@@ -18,9 +18,11 @@ require_relative 'glitch'
 require_relative 'jag'
 require_relative 'synth1'
 require_relative 'synth2'
+require_relative 'synmod'
 require 'wavefile'
 include WaveFile
 include Math
+include Synmod
 
 print "\n .'._ _'-_'..`` GLIJD '/ ,-'`- -__'' `|\n"
 
