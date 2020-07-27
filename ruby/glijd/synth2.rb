@@ -19,10 +19,10 @@ class Synth2
     @syn = Array.new
   end
 
-  def syn_2(time)
+  def syn_2(time) 
     t = 0.0
-    n = 2 * rand(2..5) # even number so can couple
-    a = Array.new(n) { rand(-1.0..1.0) }
+    n = 2 * rand(2..8) # even number so can couple
+    a = Array.new(n) { rand(-0.8..0.8) }
     f = Array.new(n) { rand(50..600) }
     while t < time
         # henon
@@ -30,10 +30,10 @@ class Synth2
           x0 = a[2*k]
           a[2*k] = 1.0 - 1.4*x0**2 + a[1+2*k]
           a[1+2*k] = 0.3 * x0
-          if (a[2*k] > 2)
+          if (a[2*k].abs > 2)
             a[2*k] = rand(-1.0..1.0)
           end
-          if (a[1+2*k] > 1)
+          if (a[1+2*k].abs > 1)
             a[1+2*k] = rand(-1.0..1.0)
           end
         end
