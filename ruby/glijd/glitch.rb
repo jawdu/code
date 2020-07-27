@@ -12,13 +12,18 @@ class Glitch
     @sr.times do
         @waveform.push(0.0)        
     end
-    add_synth(time)
-    add_jag
+    add_synth(time, 2)
+    #add_jag
   end
 
-  def add_synth(time)
-    j = Synth1.new
-    j.syn_1(time) 
+  def add_synth(time, n)
+    if n == 2
+      j = Synth2.new
+      j.syn_2(time)
+    else
+      j = Synth1.new
+      j.syn_1(time)
+    end 
     j.syn_glitch
     j.syn_fade
     (j.syn.length).times do |k|
@@ -43,7 +48,7 @@ class Glitch
 
   def write_wav
     # write @waveform to wav
-    fname = "Glijd." + Time.now.strftime("%H%M%S") + ".wav"
+    fname = "Glijd." + Time.now.strftime("%d%H%M%S") + ".wav"
     Writer.new(fname, Format.new(:mono, :pcm_16, 44100)) do |writer|
         buffer_format = Format.new(:mono, :float, 44100)
         buffer = Buffer.new(@waveform, buffer_format)
