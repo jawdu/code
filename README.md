@@ -16,7 +16,9 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
 - python
 
-  - ~~3BP: work in progress~~
+  - skrejd: parallel to glijd, medium term screw with audio project
+
+  - ~~3BP: work in progress, probably going no further~~
   
   - fractan: implementing Conway's fractran programming language
 
@@ -28,7 +30,7 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
 - ruby
 
-  - glijd: a medium term create glitch audio project 
+  - glijd: parallel to skrejd, a medium term create glitch audio project 
 
   - ruby codeGolf
 
