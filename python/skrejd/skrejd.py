@@ -33,7 +33,8 @@ else: audio = audioIn.copy()
 
 ns = len(audio)
 
-elements.random1(ns, audio)
+elements.reverse(ns, audio)
+sys.exit()
 
 # done, write to newfile and finish
 newfile = filein.rsplit('.', 1)[0] + '.' + time.strftime("%d%H%M%S") + '.wav'
@@ -45,7 +46,6 @@ wavfile.write(newfile, sr, audio)
 # ideas/todo:
 
 # input numeric string? so 642631 = do 6, then 4, then etc etc [but #fx? ]
-# if e.g. reverse, start from a wave[n] and find such that wave[n_2] = wave[n] and reverse between
 # e.g: modulate/flat noise / reverse bits / chop up / waveify / some quite drastic randomise stuff / use of chaotic systems
 # slow/speed up: add duplicate values (or just for l or r, then take away later on to conserve length)
 
