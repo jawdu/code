@@ -22,7 +22,9 @@ def reverse(ns, audio):
         # ask user for some input parameters now?
         # -32768 to 32767 assume 16bit....
         # limit to say < |10000| to ensure will find match value
-        
+        # alt method: make array of given value over whole wav, then use this is create reversal
+        # want robust for short and long files though        
+
     a = audio[40000, 0]
     b = 0
     k = 40100
