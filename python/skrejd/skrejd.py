@@ -14,8 +14,12 @@ filein = sys.argv[1]
 
 if filein.endswith('.mp3'):
     fileout = filein.rsplit('.', 1)[0] + '.wav'
-    subprocess.call(['ffmpeg', '-i', filein, fileout])
+    #subprocess.call(['ffmpeg', '-i', filein, fileout])
+    subprocess.call(['ffmpeg', filein, fileout])
     filein = fileout
+    print()
+    print("Converted mp3 to wav")
+    print()
 elif not filein.endswith('.wav'):
     # no compatible file given
     print("not a wav or mp3, exiting...")
@@ -45,6 +49,7 @@ wavfile.write(newfile, sr, audio)
 
 # ideas/todo:
 
+# sample-wise multiply (and normalise) 2 x files???!!
 # input numeric string? so 642631 = do 6, then 4, then etc etc [but #fx? ]
 # e.g: modulate/flat noise / reverse bits / chop up / waveify / some quite drastic randomise stuff / use of chaotic systems
 # slow/speed up: add duplicate values (or just for l or r, then take away later on to conserve length)

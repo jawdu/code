@@ -15,6 +15,9 @@ def rand1(ns, audio):
         if random.random() < 0.1:
             audio[i, 1] = random.uniform(-0.7, 0.7)
 
+# try a sort of map onto a sin
+# here first, before make a file for these sorta things?
+
 def reverse(ns, audio):
     # do some selective reversing
         # if e.g. reverse, start from a wave[n] and find such that wave[n_2] = wave[n] and reverse between
@@ -25,12 +28,29 @@ def reverse(ns, audio):
         # alt method: make array of given value over whole wav, then use this is create reversal
         # want robust for short and long files though        
 
-    a = audio[40000, 0]
-    b = 0
-    k = 40100
+    a = audio[417770, 0] # interim
+    b = 0                           # kinda interim?
+    k = 40100                   # interim
+    tp = []
     while (k < ns): #(a != b) and
-        b = audio[k, 0]
+        if audio[k, 0] == a:
+            b += 1
         k+=1
-  
-    print(k, b)  
+        if b == 30:
+            p1 = k
+        if b == 50:
+            p2 = k
+
+    print(p1/44100, p2/44100) # handy to get seconds so know when stuff will happen
+    # getting order 100 < # < 1000 for 7 million NS
+    # reverses nicely! just ned more
+
+    for i in range(p1, p2):
+        tp.append(audio[i,0])
+ 
+    print(p1, p2, len(tp)) 
+    for i in range(p1+1, p2):
+        audio[i,0] = tp[p2-i]
+
+
 
