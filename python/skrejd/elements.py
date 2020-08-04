@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 # some elementary functions for skrejd
+#  -32768 to 32767 assume 16bit....
 
 import random
 

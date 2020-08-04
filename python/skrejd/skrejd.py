@@ -39,7 +39,7 @@ else: audio = audioIn.copy()
 ns = len(audio)
 
 reverse.reverse(ns, audio)
-sys.exit()
+#sys.exit()
 
 # done, write to newfile and finish
 newfile = filein.rsplit('.', 1)[0] + '.' + time.strftime("%d%H%M%S") + '.wav'
