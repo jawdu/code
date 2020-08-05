@@ -18,6 +18,8 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
   - skrejd: parallel to glijd, medium term screw with audio project
 
+  - merjd: another audio project, combine/merge music in unpredictable/noise style
+
   - ~~3BP: work in progress, probably going no further~~
   
   - fractan: implementing Conway's fractran programming language
