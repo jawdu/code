@@ -2,10 +2,15 @@
 
 # reverse operations
 import random
+import inputs
 
 def reverse(ns, audio):
     # main reverse function
-    lscale, dscale, cscale = revinput(ns)
+
+    lscale = 44100 * inputs.askfunc("Enter length scale in seconds: ", "length scale", int, 1, 100, 2)
+    dscale =  44100 * inputs.askfunc("Enter density scale in seconds: ", "density scale", int, 1, 100, 5)
+    cscale = inputs.askfunc("Enter decimal probability of both channel reverse: ", "channel reverse", float, 0, 1, 0.4)
+    
     p1 = random.randint(lscale, 4*lscale)
     while (p1 < (ns - 4*lscale)):         # bit clumsy
         ch = random.randint(0, 1)       
@@ -37,20 +42,6 @@ def revseg(audio, p1, p2, s):
     for i in range(p1+1, p2):
         audio[i,s] = tp[p2-i]
    
-def revinput(ns):
-    # get user inputs, or defaults
-    # max in relation to ns: upper limit for lscale. dscale irrelevant (means just 1 reverse)
-    lscale = int(ns/120)        #input("Enter length scale in seconds, or '0' for default: ")
-    dscale = int(ns/80)         #input("Enter density scale in seconds, or '0' for default: ")
-    cscale = 0.4                #float(input("Enter decimal probability of both channel reverse, or '0' for default: "))
-
-# ___>> issues here. return to defaults, sort out input in seperate test programs
-# https://stackoverflow.com/questions/23294658/asking-the-user-for-input-until-they-give-a-valid-response
-# want for lscale = f_name("message", type, min, max, default)
-# also put this elsewhere for use in other functions
-
-    return lscale, dscale, cscale
-
 
 
 
