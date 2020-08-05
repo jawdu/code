@@ -1,16 +1,14 @@
 #! /usr/bin/python3
-
 # generic input function
 
 def askfunc(prompt, info, type_, min_, max_, default):
-    
-    message = "To use default for " + info + " press 'y', otherwise any other key: "
-    q1 = input(message)
-    if (q1 == 'y'):
-        return default
-
+    # info deprecated, not removed yet in case
+    # message = "To use default for " + info + " press 'y', otherwise any other key: "
     while True:
-        result = input(prompt)    
+        result = input(prompt)
+        if (result == 'd'):
+            return default        
+        # pull default in here?
         try:
             result = type_(result) 
         except ValueError:
