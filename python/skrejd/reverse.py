@@ -7,9 +7,9 @@ import inputs
 def reverse(ns, audio):
     # main reverse function
 
-    lscale = 44100 * inputs.askfunc("Enter length scale in seconds: ", "length scale", int, 1, 100, 2)
-    dscale =  44100 * inputs.askfunc("Enter density scale in seconds: ", "density scale", int, 1, 100, 5)
-    cscale = inputs.askfunc("Enter decimal probability of both channel reverse: ", "channel reverse", float, 0, 1, 0.4)
+    lscale = 44100 * inputs.askfunc("Enter length scale in seconds, or 'd' for default: ", "length scale", int, 1, 100, 2)
+    dscale =  44100 * inputs.askfunc("Enter density scale in seconds, or 'd' for default: ", "density scale", int, 1, 100, 5)
+    cscale = inputs.askfunc("Enter decimal probability of both channel reverse, or 'd' for default: ", "channel reverse", float, 0, 1, 0.4)
     
     p1 = random.randint(lscale, 4*lscale)
     while (p1 < (ns - 4*lscale)):         # bit clumsy

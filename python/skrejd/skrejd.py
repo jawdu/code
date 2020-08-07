@@ -3,14 +3,12 @@
 # screw a wav or mp3
 
 import sys
-import time
+import time     # for generating out.filename
 import subprocess
 import numpy as np
 from scipy.io import wavfile
 # local modules
-import elements
-import reverse
-import inputs
+import interface
 
 filein = sys.argv[1]
 
@@ -39,22 +37,15 @@ else: audio = audioIn.copy()
 
 ns = len(audio)
 
-reverse.reverse(ns, audio)
-sys.exit()
+interface.options(ns, audio)
 
 # done, write to newfile and finish
 newfile = filein.rsplit('.', 1)[0] + '.' + time.strftime("%d%H%M%S") + '.wav'
 print("Written to ", newfile)
 wavfile.write(newfile, sr, audio)
 
-
-
 # ideas/todo:
 
-# sample-wise multiply (and normalise) 2 x files???!! [maybe this as separate one] [as an attractor, even?]
-# input numeric string? so 642631 = do 6, then 4, then etc etc [but #fx? ]
 # e.g: modulate/flat noise / reverse bits / chop up / waveify / some quite drastic randomise stuff / use of chaotic systems
-# slow/speed up: add duplicate values (or just for l or r, then take away later on to conserve length)
-
 # remember on numpy vs just python list, what is efficient in py/np
 
