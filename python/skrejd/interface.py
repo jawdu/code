@@ -1,24 +1,22 @@
 #! /usr/bin/python3
-
-# user interface
+# user main menu interface
 
 import sys
 # local modules
 import elements
 import reverse
-import inputs
+import stretch
 
 def options(ns, audio):
-    # an interface here, where displays list of options, and each time call one or write to newfile and/or exit
-    # maybe also write a log, of each option called. use subprocess
-    prompt = "Select process, or '0' to write file and exit: \n 1: reverse \n 2: "
+    # maybe also write a log, of each option called. use subprocess. or do that in option, w/parameters
+    prompt = "\nSelect process, or '0' to write file and exit: \n 1: reverse \n 2:  stretch (slow) \n ........"
 
     while True:
         result = input(prompt)
         try:
             result = int(result) 
         except ValueError:
-            print("Input type must be integer")
+            print("Try again, input type must be integer, 0-2")
             continue
         if not (0 <= result <= 2):
             print("Try again, valid options are 0-2")
@@ -26,10 +24,11 @@ def options(ns, audio):
             print("Finished processing, going to output file and finish")
             return
         elif (result == 1):
+            print("Going into reverse...\n")
             reverse.reverse(ns, audio)            
         elif (result == 2):
-            print("will be option 2, for now just exit")        
-            sys.exit()
+            print("Going into stretch...\n")        
+            stretch.stretch(ns, audio)
         else:
             # don't think it should ever get here? but anyway:
             return

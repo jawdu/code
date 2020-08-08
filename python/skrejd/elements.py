@@ -19,13 +19,5 @@ def rand1(ns, audio):
 # try a sort of map onto a sin
 # here first, before make a file for these sorta things?
 
-
-def slow(ns, audio):
-    # slow segments. how to do this:
-    # between p1, p2
-    # slow section: start to double samples (like from 1 in 3, to 1/2, to every)
-    # or do prob based, so from 0.2 to 1.0, for same 
-    # but also to manage transition: keep normal section. but fade that out quickly
-    # fade normal back in, and fade out slow as approproach p2
-    k = 1
+   
 
