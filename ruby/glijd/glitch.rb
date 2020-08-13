@@ -13,7 +13,7 @@ class Glitch
     @sr.times do
         @waveform.push(0.0)        
     end
-    add_synth(time, 1)
+    add_synth(time, 2)
     #add_jag
     # produts of synth1, synth2? maybe add this into add_synth
   end

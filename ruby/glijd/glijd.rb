@@ -28,6 +28,8 @@ print "\n .'._ _'-_'..`` GLIJD '/ ,-'`- -__'' `|\n"
 
 time = 5.0
 
+# menu a la skrejd here
+
 g = Glitch.new(time) 
 g.test_noise(time)
 g.write_wav

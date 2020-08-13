@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 =begin
-    X(t+1) = a * X(t) * (1 - X(t)) 
+    X(t+1) = a * X(t) * (1 - X(t)) also--> c.f. use of sin or other 1-hump functions to give other chaotic behaviour
     --> a between 3.53 and 4.00: oscillations. x(t) is originally a population ratio. so initial vals 0.n ish?
 
     harmonic form: y(t) = sum [ r_k.cos (2pi.k.f_0.t + phi_k) ] r can be r(t)

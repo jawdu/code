@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 module Synmod
+  # utilities for synth1,2
   def syn_glitch(syn)
     # partially flatten out chunks
     p = 0
@@ -31,7 +32,6 @@ module Synmod
         syn[k] = (syn.length-k)*syn[k]/(syn.length - b)
     end
   end
-
 end
 
 
