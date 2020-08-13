@@ -6,10 +6,11 @@ import sys
 import elements
 import reverse
 import stretch
+import stutter
 
 def options(ns, audio):
     # maybe also write a log, of each option called. use subprocess. or do that in option, w/parameters
-    prompt = "\nSelect process, or '0' to write file and exit: \n 1: reverse \n 2:  stretch (slow) \n ........"
+    prompt = "\nSelect process, or '0' to write file and exit: \n 1: reverse \n 2:  stretch (slow) \n 3: stutter \n xed r........"
 
     while True:
         result = input(prompt)
@@ -29,6 +30,12 @@ def options(ns, audio):
         elif (result == 2):
             print("Going into stretch...\n")        
             stretch.stretch(ns, audio)
+        elif (result == 3):
+            print("Going into stutter...\n")        
+            stutter.stutter(ns, audio)
+
+        # option 3: stutter
+
         else:
             # don't think it should ever get here? but anyway:
             return
