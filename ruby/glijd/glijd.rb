@@ -27,12 +27,28 @@ include Synmod
 print "\n .'._ _'-_'..`` GLIJD '/ ,-'`- -__'' `|\n"
 
 time = 5.0
-
-# menu a la skrejd here
+# ask for time
 
 g = Glitch.new(time) 
-g.test_noise(time)
-g.write_wav
+
+loop do
+  puts ["0: Finish, write to wav and exit: ", "1: Add hum 1:", "2: Add jag noise: ", ""].join $/
+  case command = gets.chomp
+  
+  when "0"
+    puts "exit"
+    g.write_wav
+    break
+  when "1"
+    puts "choice 2"
+    g.add_synth(time, 2)
+  when "2"
+    g.add_jag
+  else
+    puts "not valid response, try again \n"
+    #not valid, ask again
+  end
+end
 
 print "\n ..,,done.,..,,\n\n"
 

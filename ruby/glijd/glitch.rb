@@ -6,16 +6,9 @@ class Glitch
     @waveform = Array.new
     # len(@waveform) will be @sr
     @sr = (time * 44100).to_i
-  end
-
-  def test_noise(time)
-    # try stuff out
     @sr.times do
         @waveform.push(0.0)        
     end
-    add_synth(time, 2)
-    #add_jag
-    # produts of synth1, synth2? maybe add this into add_synth
   end
 
   def add_synth(time, n)
