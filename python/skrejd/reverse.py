@@ -38,7 +38,7 @@ def revseg(audio, p1, p2, s):
     for i in range(p1, p2):
         tp.append(audio[i,s])
  
-    print(p1/44100, p2/44100, len(tp)/44100) 
+    # print(p1/44100, p2/44100, len(tp)/44100) 
     for i in range(p1+1, p2):
         audio[i,s] = tp[p2-i]
    
