@@ -16,8 +16,12 @@ def rand1(ns, audio):
         if random.random() < 0.1:
             audio[i, 1] = random.uniform(-0.7, 0.7)
 
-# try a sort of map onto a sin
-# here first, before make a file for these sorta things?
 
-   
+# https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string
+# https://stackoverflow.com/questions/4431216/python-function-call-with-variable
+# ^ need
+# because reverse, stretch have basically same thing, only difference on function
+# once I've resolved lscale etc, stick them here
+
+
 
