@@ -14,11 +14,10 @@ filein = sys.argv[1]
 
 if filein.endswith('.mp3'):
     fileout = filein.rsplit('.', 1)[0] + '.wav'
-    #subprocess.call(['ffmpeg', '-i', filein, fileout])
-    subprocess.call(['ffmpeg', filein, fileout])
+    subprocess.call(['ffmpeg', '-i', filein, fileout]) # needs -i to work
     filein = fileout
     print()
-    print("Converted mp3 to wav")
+    print("Converted mp3 to wav \n")
     print()
 elif not filein.endswith('.wav'):
     # no compatible file given
@@ -37,11 +36,13 @@ else: audio = audioIn.copy()
 
 ns = len(audio)
 
+print("Ready to process audio... \n")
+
 interface.options(ns, audio)
 
 # done, write to newfile and finish
 newfile = filein.rsplit('.', 1)[0] + '.' + time.strftime("%d%H%M%S") + '.wav'
-print("Written to ", newfile)
+print("Written to: ", newfile, " - exiting...\n")
 wavfile.write(newfile, sr, audio)
 
 # ideas/todo:
