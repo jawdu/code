@@ -17,6 +17,7 @@ def rand1(ns, audio):
             audio[i, 1] = random.uniform(-0.7, 0.7)
 
 
+
 # https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string
 # https://stackoverflow.com/questions/4431216/python-function-call-with-variable
 # ^ need

@@ -32,6 +32,9 @@ def reverse(ns, audio):
         revseg(audio, p1, p2, ch)
         p1 = p2 + random.randint(dscale, dscale*3)                       
 
+    print("Finished reversed \n")
+    return
+
 def revseg(audio, p1, p2, s):
     # reverse a segment in 1 channel
     tp = []
