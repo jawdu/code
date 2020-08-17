@@ -26,13 +26,17 @@ include Synmod
 
 print "\n .'._ _'-_'..`` GLIJD '/ ,-'`- -__'' `|\n"
 
-time = 5.0
-# ask for time
+time = 0.0
+
+until time.between?(0.1,100.0)
+    print "Input duration, from 0.1-100 seconds: "
+    time = gets.chomp.to_f
+end
 
 g = Glitch.new(time) 
 
 loop do
-  puts ["0: Finish, write to wav and exit: ", "1: Add hum 1:", "2: Add jag noise: ", ""].join $/
+  puts ["\n", "0: Finish, write to wav and exit: ", "1: Add hum 1:", "2: Add jag noise: ", ""].join $/
   case command = gets.chomp
   
   when "0"
@@ -45,7 +49,7 @@ loop do
   when "2"
     g.add_jag
   else
-    puts "not valid response, try again \n"
+    puts "not valid response, try again"
     #not valid, ask again
   end
 end
