@@ -4,6 +4,7 @@ class Glitch
   #include Synmod
   def initialize(time)
     @waveform = Array.new
+    @nprocs = 0.0
     # len(@waveform) will be @sr
     @sr = (time * 44100).to_i
     @sr.times do
@@ -12,6 +13,7 @@ class Glitch
   end
 
   def add_synth(time, n)
+    @nprocs += 1
     if n == 2
       j = Synth2.new
       j.syn_2(time)
@@ -27,29 +29,40 @@ class Glitch
   end
 
   def add_jag
+    @nprocs += 1
     p = 0
     while p < (@waveform.length - 5000) do
-      if rand(0.0..1.0) < 0.03
+      if rand(0.0..1.0) < 0.2
         j = Jag.new
         j.jag_noise
         (j.jg.length).times do |k|
-          @waveform[k + p] += j.jg[k]
-          p += 1
+          @waveform[k+p] += j.jg[k]
         end
-        p += rand(750..1500)
+        p += j.jg.length
       end
+      p += rand(250..1000)
     end
   end
 
   def write_wav
-    # write @waveform to wav
-    fname = "Glijd." + Time.now.strftime("%d%H%M%S") + ".wav"
-    Writer.new(fname, Format.new(:mono, :pcm_16, 44100)) do |writer|
+    # write @waveform to wav. 
+    if @nprocs < 1 #i.e. nothing has happend
+      puts "No operations performed, nothing to do"
+    else  
+#---think this not needed after all
+#      puts 1/@nprocs  
+#     (@waveform.length).times do |i|
+#        @waveform[i] *= (1/@nprocs)
+ #     end
+      fname = "Glijd." + Time.now.strftime("%d%H%M%S") + ".wav"
+      Writer.new(fname, Format.new(:mono, :pcm_16, 44100)) do |writer|
         buffer_format = Format.new(:mono, :float, 44100)
         buffer = Buffer.new(@waveform, buffer_format)
         writer.write(buffer)
+      end
+      puts "Written to " + fname
     end
-    print "Written to " + fname
   end
+
 end
 

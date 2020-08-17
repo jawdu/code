@@ -36,17 +36,21 @@ end
 g = Glitch.new(time) 
 
 loop do
-  puts ["\n", "0: Finish, write to wav and exit: ", "1: Add hum 1:", "2: Add jag noise: ", ""].join $/
+  puts ["\n", "0: Finish, write to wav and exit: ", "1: Add hum 1:", "2: Add hum 2:", "3: Add jag noise: ", ""].join $/
   case command = gets.chomp
   
   when "0"
-    puts "exit"
+    puts "Going to write wav..."
     g.write_wav
     break
   when "1"
-    puts "choice 2"
-    g.add_synth(time, 2)
+    puts "Adding synth-hum 1"
+    g.add_synth(time, 1)
   when "2"
+    puts "Adding synth-hum 2"
+    g.add_synth(time, 2)
+  when "3"
+    puts "Adding jag noise"
     g.add_jag
   else
     puts "not valid response, try again"
@@ -54,5 +58,5 @@ loop do
   end
 end
 
-print "\n ..,,done.,..,,\n\n"
+print "Done, exiting.....\n"
 
