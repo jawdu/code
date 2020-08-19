@@ -16,14 +16,15 @@ def rand1(ns, audio):
         if random.random() < 0.1:
             audio[i, 1] = random.uniform(-0.7, 0.7)
 
+def fglitch(ns, audio):
+    # periodically (maybe sample from poisson, e.g.?) flatten/modulise out bits
+    while (i < (ns-80000)):        # so max length os flatten about 1.2 sec    
+        i += random.randint(100, 500000)
+    
+    print ("Finished flatten glitch\n")
+    return
 
 
-# https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string
-# https://stackoverflow.com/questions/4431216/python-function-call-with-variable
-# ^ need
-# because reverse, stretch have basically same thing, only difference on function?
-# or maybe not... reverse cares about zeros, stretch doesn't
-# once I've resolved lscale etc, stick them here
 
 
 
