@@ -9,22 +9,23 @@ def fglitch(ns, audio):
     # periodically flatten/modulise out bits.
     density = inputs.askfunc("Enter relative density for glitches (0.1-100), or 'd' for default: ", "glitch density", float, 0.1, 100, 10)
     maxlen = inputs.askfunc("Enter max glitch length in seconds (0-2), or 'd' for default: ", "glitch maxlen", float, 0.1, 2.0, 0.5)
-    i = 0
+    i = random.randint(1000, 10000)
     while (i < (ns-100000)):         
-        i += random.randint(100, 10000)
         if (random.uniform(0, 1) < (0.01 * density)):
             ch = random.randint(0, 1)
             glen = int(44100 * random.uniform(0.001, maxlen))
             while (abs(audio[i, ch]) < 500):
-                # cycle until find a non-quiet value
+                # cycle until find a non-quiet value or end of file
                 i += 1
+                if (i == ns):
+                    return
             if (random.random() < 0.5):
                 j = i + random.randint(0, 100)
                 ch2 = 1 - ch
                 flatten(audio, j, glen, ch2)
             flatten(audio, i, glen, ch)
             i += glen # length of glitch
-        
+        i += random.randint(100, 10000)        
     print ("Finished flatten glitch\n")
     return
 
