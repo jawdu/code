@@ -16,15 +16,5 @@ def rand1(ns, audio):
         if random.random() < 0.1:
             audio[i, 1] = random.uniform(-0.7, 0.7)
 
-def fglitch(ns, audio):
-    # periodically (maybe sample from poisson, e.g.?) flatten/modulise out bits
-    while (i < (ns-80000)):        # so max length os flatten about 1.2 sec    
-        i += random.randint(100, 500000)
-    
-    print ("Finished flatten glitch\n")
-    return
-
-
-
 
 

@@ -4,6 +4,7 @@
 import sys
 # local modules
 import elements
+import fglitch
 import reverse
 import stretch
 import stutter
@@ -38,7 +39,7 @@ def options(ns, audio):
             stutter.stutter(ns, audio)
         elif (result == 5):
             print("\nGoing into flatten glitch...\n")        
-            elements.fglitch(ns, audio)
+            fglitch.fglitch(ns, audio)
         else:
             # don't think it should ever get here? but anyway:
             return

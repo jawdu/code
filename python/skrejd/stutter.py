@@ -10,7 +10,7 @@ def stutter(ns, audio):
 
     p1 = 20000 * random.randint(3,12)    
 
-    while (p1 < (ns - 3*density)):         
+    while (p1 < (ns - 1.5*density)):         
         ch = random.randint(0, 1)       
         if (random.random() < 0.5):
             # do 2nd channel, at similarish position
