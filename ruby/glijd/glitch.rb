@@ -55,8 +55,8 @@ class Glitch
 #        @waveform[i] *= (1/@nprocs)
  #     end
       fname = "Glijd." + Time.now.strftime("%d%H%M%S") + ".wav"
-      Writer.new(fname, Format.new(:mono, :pcm_16, 44100)) do |writer|
-        buffer_format = Format.new(:mono, :float, 44100)
+      Writer.new(fname, Format.new(:stereo, :pcm_16, 44100)) do |writer|
+        buffer_format = Format.new(:stereo, :float, 44100)
         buffer = Buffer.new(@waveform, buffer_format)
         writer.write(buffer)
       end
