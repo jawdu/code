@@ -3,13 +3,13 @@
 class Glitch
   #include Synmod
   def initialize(time)
-    @waveform = Array.new
+    @sr = (time * 44100).to_i
+    @waveform = Array.new(@sr) { Array.new(2,0)}
     @nprocs = 0.0
     # len(@waveform) will be @sr
-    @sr = (time * 44100).to_i
-    @sr.times do
-        @waveform.push(0.0)        
-    end
+    #@sr.times do
+      #@waveform.push(0.0)        
+    #end
   end
 
   def add_synth(time, n)
@@ -24,7 +24,8 @@ class Glitch
     Synmod.syn_glitch(j.syn)    
     Synmod.syn_fade(j.syn)    
     (j.syn.length).times do |k|
-      @waveform[k] = j.syn[k]
+      @waveform[k][0] = j.syn[k]
+      @waveform[k][1] = j.syn[k] # next add val
     end
   end
 
@@ -36,7 +37,8 @@ class Glitch
         j = Jag.new
         j.jag_noise
         (j.jg.length).times do |k|
-          @waveform[k+p] += j.jg[k]
+          @waveform[k+p][0] += j.jg[k]
+          @waveform[k+p][1] += j.jg[k]
         end
         p += j.jg.length
       end
