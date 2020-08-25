@@ -3,13 +3,9 @@
 class Glitch
   #include Synmod
   def initialize(time)
-    @sr = (time * 44100).to_i
+    @sr = (time * 44100).to_i           # also len(waveform)
     @waveform = Array.new(@sr) { Array.new(2,0)}
     @nprocs = 0.0
-    # len(@waveform) will be @sr
-    #@sr.times do
-      #@waveform.push(0.0)        
-    #end
   end
 
   def add_synth(time, n)
@@ -22,10 +18,10 @@ class Glitch
       j.syn_1(time)
     end 
     Synmod.syn_glitch(j.syn)    
-    Synmod.syn_fade(j.syn)    
+    Synmod.syn_fade(j.syn)              # soon, options here, with other type of fade? or generalise fade
     (j.syn.length).times do |k|
       @waveform[k][0] = j.syn[k]
-      @waveform[k][1] = j.syn[k] # next add val
+      @waveform[k][1] = j.syn[k]        # next add val or something to make actual stereo. start making t_syn < time
     end
   end
 
@@ -36,9 +32,12 @@ class Glitch
       if rand(0.0..1.0) < 0.2
         j = Jag.new
         j.jag_noise
+        u = rand(0..1)
+        v = rand(0..100)
+        w = rand(0.7..1.0)  
         (j.jg.length).times do |k|
-          @waveform[k+p][0] += j.jg[k]
-          @waveform[k+p][1] += j.jg[k]
+          @waveform[k+p][u] += j.jg[k]
+          @waveform[k+p+v][1-u] += w * j.jg[k]
         end
         p += j.jg.length
       end

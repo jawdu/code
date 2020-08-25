@@ -8,6 +8,7 @@ class Jag
       attr_reader :jg
     end
     @jg = Array.new
+    # perform stereo in glitch
   end
 
   def jag_noise

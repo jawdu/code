@@ -22,7 +22,7 @@ module Synmod
   end
   
   def syn_fade(syn)
-    # linear fade in & out
+    # linear fade in & out. 
     a = rand((0.1*syn.length)..(0.45*syn.length)).to_i
     b = rand((0.55*syn.length)..(0.9*syn.length)).to_i
     a.times do |k|
@@ -34,4 +34,5 @@ module Synmod
   end
 end
 
+# add a curvish fade in/out, with no level part?
 
