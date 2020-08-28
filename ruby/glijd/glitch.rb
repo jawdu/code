@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 class Glitch
-  #include Synmod
   def initialize(time)
     @sr = (time * 44100).to_i           # also len(waveform)
     @waveform = Array.new(@sr) { Array.new(2,0)}
@@ -19,9 +18,10 @@ class Glitch
     end 
     Synmod.syn_glitch(j.syn)    
     Synmod.syn_fade(j.syn)              # soon, options here, with other type of fade? or generalise fade
-    (j.syn.length).times do |k|
-      @waveform[k][0] = j.syn[k]
-      @waveform[k][1] = j.syn[k]        # next add val or something to make actual stereo. start making t_syn < time
+    (j.syn.length - 1).times do |k|       # this is 1 longer than @sr?????????????
+      a = rand(-0.1..0.1)                       # quick and dirty stereo
+      @waveform[k][0] += (1+a) * j.syn[k]
+      @waveform[k][1] += (1-a) * j.syn[k]        
     end
   end
 
