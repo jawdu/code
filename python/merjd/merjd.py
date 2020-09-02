@@ -26,29 +26,33 @@ sr2, audio2 = wavfile.read(files[1])
 
 sr = min(sr1, sr2)                                  # sr for output. if different SRs, then... will be weird
 l = min(len(audio1), len(audio2))
-audio3 = np.empty(shape=(l, 2), dtype=np.int16)       
+audio = np.empty(shape=(l, 2), dtype=np.int16)       
 
-prompt = "\nEnter method you want to apply: \n1: test function \n"
+prompt = "\nEnter method you want to apply: \n0: test function \n"
 while True:
         result = input(prompt)
         try:
             result = int(result) 
         except ValueError:
-            print("\nTry again, input type must be integer, 1-1 \n")
+            print("\nTry again, input type must be integer, 0-1 \n")
             continue
-        if not (1 <= result <= 1):
+        if not (0 <= result <= 1):
             print("\nTry again, valid options are 1-1")
-        elif (result == 1):   
-            funcs.test(audio1, audio2, audio3, l)
+        elif (result == 0):             # delete this one once sorted
+            funcs.test(audio, audio1, audio2, l)
             break
         else:
             # should never get here :)
             print("huh")
             break
+
+# add in a ~1 sec fade at end, 
+
+funcs.fade(audio, l)
   
 # done, write to newfile and finish
 nfile=input("Enter name for fileout: ")
 newfile = nfile.rsplit('.', 1)[0] + '.' + time.strftime("%d%H%M%S") + '.wav'
 print("Written to ", newfile)
-wavfile.write(newfile, sr, audio3)
+wavfile.write(newfile, sr, audio)
 
