@@ -28,7 +28,7 @@ sr = min(sr1, sr2)                                  # sr for output. if differen
 l = min(len(audio1), len(audio2))
 audio = np.empty(shape=(l, 2), dtype=np.int16)       
 
-prompt = "\nEnter method you want to apply: \n0: test function \n"
+prompt = "\n Available methods: \n  0: test function \n Enter method you want to apply: "
 while True:
         result = input(prompt)
         try:
@@ -46,13 +46,11 @@ while True:
             print("huh")
             break
 
-# add in a ~1 sec fade at end, 
-
-funcs.fade(audio, l)
+funcs.fade(audio, l)                # add in a ~1 sec fade at end, 
   
 # done, write to newfile and finish
-nfile=input("Enter name for fileout: ")
+nfile=input("\n Enter name for fileout: ")
 newfile = nfile.rsplit('.', 1)[0] + '.' + time.strftime("%d%H%M%S") + '.wav'
-print("Written to ", newfile)
+print(" Written to ", newfile)
 wavfile.write(newfile, sr, audio)
 
