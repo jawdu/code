@@ -28,7 +28,7 @@ sr = min(sr1, sr2)                                  # sr for output. if differen
 l = min(len(audio1), len(audio2))
 audio = np.empty(shape=(l, 2), dtype=np.int16)       
 
-prompt = "\n Available methods: \n  0: test function \n Enter method you want to apply: "
+prompt = "\n Available methods: \n  0: test function \n  1: product function \n Enter method you want to apply: "
 while True:
         result = input(prompt)
         try:
@@ -40,6 +40,9 @@ while True:
             print("\nTry again, valid options are 1-1")
         elif (result == 0):             # delete this one once sorted
             funcs.test(audio, audio1, audio2, l)
+            break
+        elif (result == 1):
+            funcs.prod(audio, audio1, audio2, l)
             break
         else:
             # should never get here :)
