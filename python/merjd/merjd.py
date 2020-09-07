@@ -12,11 +12,11 @@ import funcs
 
 files = sys.argv[1:]
 
-for i in files:
-    if i.endswith('.mp3'):
-        fileout = i.rsplit('.', 1)[0] + '.wav'
-        subprocess.call(['ffmpeg', '-i', i, fileout])       # needs -i to work
-        i = fileout
+for (i, v) in enumerate(files):
+    if v.endswith('.mp3'):
+        fileout = v.rsplit('.', 1)[0] + '.wav'
+        subprocess.call(['ffmpeg', '-i', v, fileout])       # needs -i to work
+        files[i] = fileout
 
 # could make > 2 files, really... eventually...
 
