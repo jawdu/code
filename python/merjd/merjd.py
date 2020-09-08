@@ -28,6 +28,10 @@ sr = min(sr1, sr2)                                  # sr for output. if differen
 l = min(len(audio1), len(audio2))
 audio = np.empty(shape=(l, 2), dtype=np.int16)       
 
+t = l / 2000000          # rough time estimate
+
+print("\nDepending on method chosen and your machine, expect to wait ~ %1.1f minutes" % (t))
+
 prompt = "\n Available methods: \n  0: test function \n  1: product function \n Enter method you want to apply: "
 while True:
         result = input(prompt)
