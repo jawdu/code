@@ -32,21 +32,24 @@ t = l / 2000000          # rough time estimate
 
 print("\nDepending on method chosen and your machine, expect to wait ~ %1.1f minutes" % (t))
 
-prompt = "\n Available methods: \n  0: test function \n  1: product function \n Enter method you want to apply: "
+prompt = "\n Available methods: \n  0: test function \n  1: basic product function \n  2: 2nd product function \n Enter method you want to apply: "
 while True:
         result = input(prompt)
         try:
             result = int(result) 
         except ValueError:
-            print("\nTry again, input type must be integer, 0-1 \n")
+            print("\nTry again, input type must be integer, 0-2 \n")
             continue
-        if not (0 <= result <= 1):
-            print("\nTry again, valid options are 1-1")
+        if not (0 <= result <= 2):
+            print("\nTry again, valid options are 1-2")
         elif (result == 0):             # delete this one once sorted
             funcs.test(audio, audio1, audio2, l)
             break
         elif (result == 1):
-            funcs.prod(audio, audio1, audio2, l)
+            funcs.prod1(audio, audio1, audio2, l)
+            break
+        elif (result == 2):
+            funcs.prod2(audio, audio1, audio2, l)
             break
         else:
             # should never get here :)

@@ -12,14 +12,27 @@ def test(audio, audio1, audio2, l):
     print("\n ...done test function...")
     return
 
-def prod(audio, audio1, audio2, l):
+def prod1(audio, audio1, audio2, l):
     # some sort of multiplying?
     print("\n ...into product function...")
+
     for i in range(l):
         # doing it like this to avoid overflow stuff. clumsy, but....
         audio[i, 0] = 32000 * (audio1[i, 0]/32000) * (audio2[i, 0]/32000)
         audio[i, 1] = 32000 * (audio1[i, 1]/32000) * (audio2[i, 1]/32000)
     print("\n ...done product function...")
+    return
+
+def prod2(audio, audio1, audio2, l):
+    # 2nd product function
+    print("\n ...into product function #2...")
+    a = random.uniform(3.1, 3.99)
+    b = random.uniform(0.2, 0.8)
+    for i in range(l):
+        b = a * b * (1 - b)
+        audio[i, 0] = b * 40000 * (audio1[i, 0]/32000) * (audio2[i, 0]/32000)
+        audio[i, 1] = b * 40000 * (audio1[i, 1]/32000) * (audio2[i, 1]/32000)
+    print("\n ...done product function #2...")
     return
 
 def fade(audio, l):
