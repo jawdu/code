@@ -35,6 +35,30 @@ def prod2(audio, audio1, audio2, l):
     print("\n ...done product function #2...")
     return
 
+def habs(audio, audio1, audio2, l):
+    # highest abs value
+    print("\n ...into highest absolute value...")
+    for i in range(l):
+        for k in range(0, 2):    
+            if (abs(audio1[i, k]) > abs(audio2[i, k])):
+                audio[i, k] = audio1[i, k]
+            else:
+                audio[i, k] = audio2[i, k]
+    print("\n ...done highest absolute value...")
+    return
+
+def labs(audio, audio1, audio2, l):
+    # lowest abs value
+    print("\n ...into lowest absolute value...")
+    for i in range(l):
+        for k in range(0, 2):    
+            if (abs(audio1[i, k]) < abs(audio2[i, k])):
+                audio[i, k] = audio1[i, k]
+            else:
+                audio[i, k] = audio2[i, k]
+    print("\n ...done lowest absolute value...")
+    return
+
 def fade(audio, l):
     # fade end of audio out. done automatically after user-directed function
     print("\n ...adding fade...")
