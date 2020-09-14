@@ -32,7 +32,7 @@ t = l / 2000000          # rough time estimate
 
 print("\nDepending on method chosen and your machine, expect to wait ~ %1.1f minutes" % (t))
 
-prompt = "\n Available methods: \n  0: test function \n  1: basic product function \n  2: 2nd product function \n 3: highest abs value function \n 4: lowest abs value function \n Enter method you want to apply: "
+prompt = "\n Available methods: \n  0: test function \n  1: basic product function \n  2: 2nd product function \n  3: highest abs value function \n  4: lowest abs value function \n Enter method you want to apply: "
 while True:
         result = input(prompt)
         try:
