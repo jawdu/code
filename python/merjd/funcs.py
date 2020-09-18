@@ -65,8 +65,11 @@ def diff(audio, audio1, audio2, l):
     audio[0, 0] = 0         # prevent overflow dealing with 0s
     audio[0, 1] = 0
     for i in range(1, l):
-        for k in range(0, 2):    
-            audio[i, k] = 0.9 * (abs(audio1[i, k]) - abs(audio2[i, k]))
+        #for k in range(0, 2):    
+        audio[i, 0] = 0.9 * (abs(audio1[i, 0]) - abs(audio2[i, 0]))
+        audio[i, 1] = 0.9 * (abs(audio2[i, 1]) - abs(audio1[i, 1]))
+
+            # think can do better with this
 
     print("\n ...done difference...")
     return
