@@ -74,6 +74,19 @@ def diff(audio, audio1, audio2, l):
     print("\n ...done difference...")
     return
 
+def rmix(audio, audio1, audio2, l):
+    # random mix of the 2 inputs
+    # future version: more 'chunk' based? and do it channel at a time for indepedence
+    print("\n ...into random mix...")
+    for i in range(l):
+        for j in range(0, 2):        
+            if (random.randint(0, 1) > 0):
+                audio[i, j] = audio1[i, random.randint(0,1)]
+            else:
+                audio[i, j] = audio2[i, random.randint(0,1)]
+
+    print("\n ...done random mix...")
+    return
 
 def fade(audio, l):
     # fade end of audio out. done automatically after user-directed function
