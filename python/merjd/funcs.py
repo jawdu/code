@@ -88,6 +88,15 @@ def rmix(audio, audio1, audio2, l):
     print("\n ...done random mix...")
     return
 
+def HOLDING(audio, audio1, audio2, l):
+    # weird [?] transform
+    print("\n ...into HOLDING...")
+
+
+
+    print("\n ...done HOLDING...")
+    return
+
 def fade(audio, l):
     # fade end of audio out. done automatically after user-directed function
     print("\n ...adding fade...")

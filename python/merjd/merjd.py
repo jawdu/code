@@ -32,16 +32,16 @@ t = l / 2000000          # rough time estimate
 
 print("\nDepending on method chosen and your machine, expect to wait ~ %1.1f minutes" % (t))
 
-prompt = "\n Available methods: \n  0: test function \n  1: basic product function \n  2: 2nd product function \n  3: highest abs value function \n  4: lowest abs value function \n  5: difference function \n  6: random mix \n Enter method you want to apply: "
+prompt = "\n Available methods: \n  0: test function \n  1: basic product function \n  2: 2nd product function \n  3: highest abs value function \n  4: lowest abs value function \n  5: difference function \n  6: random mix \n  7: UNTITLED \n Enter method you want to apply: "
 while True:
         result = input(prompt)
         try:
             result = int(result) 
         except ValueError:
-            print("\nTry again, input type must be integer, 0-6 \n")
+            print("\nTry again, input type must be integer, 0-7 \n")
             continue
         if not (0 <= result <= 10):
-            print("\nTry again, valid options are 1-6")
+            print("\nTry again, valid options are 1-7")
         elif (result == 0):             # delete this one once sorted
             funcs.test(audio, audio1, audio2, l)
             break
@@ -62,6 +62,9 @@ while True:
             break
         elif (result == 6):
             funcs.rmix(audio, audio1, audio2, l)
+            break
+        elif (result == 7):
+            funcs.HOLDING(audio, audio1, audio2, l)
             break
         else:
             # sneaky exit 
