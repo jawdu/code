@@ -44,6 +44,7 @@ def options(ns, audio):
         elif (result == 6):
             print("\nGoing into lo-fi...\n")        
             lofi.lofi(ns, audio)
+        # something where... I kinda map it onto a sine (or other periodic function?)
         else:
             # don't think it should ever get here? but anyway:
             return
