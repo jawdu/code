@@ -12,17 +12,17 @@ import stutter
 
 def options(ns, audio):
     # maybe also write a log, of each option called. use subprocess. or do that in option, w/parameters
-    prompt = "\nSelect process, or '0' to write file and exit: \n 0: finish \n 1: reverse \n 2: stretch (slow) \n 3: slow glitch \n 4: stutter \n 5: flatten glitch \n 6: lo-fi \n ........................"
+    prompt = "\nSelect process, or '0' to write file and exit: \n 0: finish \n 1: reverse \n 2: stretch (slow) \n 3: slow glitch \n 4: stutter \n 5: flatten glitch \n 6: lo-fi \n 7: filter \n ........................"
 
     while True:
         result = input(prompt)
         try:
             result = int(result) 
         except ValueError:
-            print("\nTry again, input type must be integer, 0-6 \n")
+            print("\nTry again, input type must be integer, 0-7 \n")
             continue
-        if not (0 <= result <= 6):
-            print("\nTry again, valid options are 0-6")
+        if not (0 <= result <= 7):
+            print("\nTry again, valid options are 0-7")
         elif (result == 0):
             print("\nFinished processing, going to output file and finish...\n")
             return
@@ -44,6 +44,9 @@ def options(ns, audio):
         elif (result == 6):
             print("\nGoing into lo-fi...\n")        
             lofi.lofi(ns, audio)
+        elif (result == 7):
+            print("\nGoing into filters...\n")  
+            filters.filters(ns,audio)
         # something where... I kinda map it onto a sine (or other periodic function?)
         else:
             # don't think it should ever get here? but anyway:
