@@ -5,6 +5,7 @@ import sys
 # local modules
 import elements
 import fglitch
+import filters
 import lofi
 import reverse
 import stretch
