@@ -92,6 +92,7 @@ def HOLDING(audio, audio1, audio2, l):
     # weird [?] transform
     print("\n ...into HOLDING...")
 
+    # > Since reverberation is essentially caused by a very large number of echoes, simple reverberation algorithms use several feedback delay circuits to create a large, decaying series of echoes.
 
 
     print("\n ...done HOLDING...")
