@@ -4,18 +4,6 @@
 # so e.g. eliminate full stops. de-capitalise (but proper nouns at start???). dash or comma or semi colons
 # i think: keep only leading capital letter. a la mode.
 
-#   while not eof
-#       option 1 - if capital, then de-capital
-#       remove line breaks, tabs, extra spaces, etc
-#       if " . " then:
-#           replace with , or - or ; based on (magic)
-#           option 2 - de-capital next letter
-#       if "   "______"   " then:
-#           ? not sure. keep? dunno
-#       else:
-#           copy character from fileIn to fileOut
-#       
-
 fileIn="$1"
 fileOut=$(echo "${fileIn%.*}.out.txt")
 cp $fileIn $fileOut
