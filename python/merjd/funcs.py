@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import random
+import math
 
 def test(audio, audio1, audio2, l):
     # bland test function, to be deleted
@@ -78,11 +79,12 @@ def matmix(audio, audio1, audio2, l):
     # random mix of the 2 inputs
 
     # turn this into matrix transformation. input vectors v, w. sum Av + Bw? A, B random (0 < 1)? or...
+    # below not really matrix stuff yet. just playing.
 
     print("\n ...into matrix mix...")
     for i in range(l):
-
-
+        audio[i,0] = 0.5 * (audio1[i,0] * math.sin(audio1[i,0]/5000) + audio2[i,0] * math.sin(audio2[i,0]/5000))
+        audio[i,1] = 0.5 * (audio1[i,1] * math.sin(audio1[i,1]/5000) + audio2[i,1] * math.sin(audio2[i,1]/5000))
     print("\n ...done matrix mix...")
     return
 
