@@ -5,11 +5,19 @@
 # i think: keep only leading capital letter. a la mode.
 
 fileIn="$1"
-fileOut=$(echo "${fileIn%.*}.out.txt")
-cp $fileIn $fileOut
+fileOut=$(echo "${fileIn%.*}.bkify.out.txt")
 
-# remove newlines
-sed ':a;N;$!ba;s/\n//g' $fileOut
+# remove newlines. tr better than sed, people say. also creates output file
+tr -d '\n' < $fileIn > $fileOut
+
+# copy 1st character [capital] and store it for later...
+c1=$(head -c 1 $fileOut)
+
+# de-capitalise. tr can't modify file in-place
+tr '[:upper:]' '[:lower:]' <$fileOut >tfile && mv tfile $fileOut
+
+# replace 1st character. 
+sed -i "0,/./s/^./$c1/g" "$fileOut"
 
 
 # echo -e "bkify version of $fileIn \n" > $fileOut
