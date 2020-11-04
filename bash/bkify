@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # take a text, turn it into mock-Bernard / mock-Krasznahorkai. Try a js one as well?
-# so e.g. eliminate full stops. de-capitalise (but proper nouns at start???). dash or comma or semi colons
-# i think: keep only leading capital letter. a la mode.
+# so e.g. eliminate full stops. dash or comma or semi colons, or ellipsis??
 
 fileIn="$1"
 fileOut=$(echo "${fileIn%.*}.bkify.out.txt")
@@ -16,10 +15,14 @@ c1=$(head -c 1 $fileOut)
 # de-capitalise. tr can't modify file in-place
 tr '[:upper:]' '[:lower:]' <$fileOut >tfile && mv tfile $fileOut
 
-# replace 1st character. 
+# replace 1st character with stored capital
 sed -i "0,/./s/^./$c1/g" "$fileOut"
 
+# when replacing fullstops, remember will have to add one at the end (or, make ellipses)
+# also maybe replace '. ' so any '...' will stay (or become '..;' etc, hmm)
+# ^ overcome by using '[a-z]. could also then use that to create rules - for er, ing, etc...?
 
-# echo -e "bkify version of $fileIn \n" > $fileOut
+# at the moment - just add comma
+sed -i "s/\([a-z]*\)\+\./\1\, /g" "$fileOut"
 
 
