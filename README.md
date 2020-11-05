@@ -9,6 +9,8 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
   - subtime: manually create first run subtitle timings
 
   - tidytext: cut&paste into newfile, tailored & obscurely useful for me and my txt scrapbooks
+
+  - bkify: turn a text file into a pseudo mitteleuropa postwar text (a la Bernhard, Krasznahorkai, ...)
  
 - cpp
 
