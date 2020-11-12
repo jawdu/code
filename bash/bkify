@@ -19,15 +19,31 @@ tr '[:upper:]' '[:lower:]' <$fileOut >tfile && mv tfile $fileOut
 # replace 1st character with stored capital
 sed -i "0,/./s/^./$c1/g" "$fileOut"
 
-# ^ overcome by using '[a-z]. could also then use that to create rules - for er, ing, etc...?
-# or set up about 5 different schemes, randomly choose one
-
-# at the moment - just add comma.
-#sed -i "s/\([a-z]*\)\+\. /\1\, /g" "$fileOut"
+# at the moment - just add comma. need to deal with both line break & spaces -> extra spaces
 sed -i "s/\([a-z]*\)\+\.\+/\1\, /g" "$fileOut"
 
 # eliminate any extras spaces that creep in
 tr -s ' ' <$fileOut >tfile && mv tfile $fileOut
+
+# change some commas to other things. nc: number of commas.
+nc=$(tr -cd , < $fileOut | wc -c)
+p=0
+
+while [ $p -lt $nc ]; do
+    # in range 1-100 (random enough for this use)
+    k=$((RANDOM % 100))
+
+    if [ "$k" -lt 5 ]; then
+        # symbol 1
+        sed -i "s/\,/\;/$k" "$fileOut"
+    elif [ "$k" -lt 10 ]; then
+        # symbol 2
+        sed -i "s/\,/\:/$k" "$fileOut"
+    fi
+
+    # increment $p regardless
+    p=$((p+1))
+done 
 
 echo "finished, output text is $fileOut"
 
