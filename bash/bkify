@@ -33,14 +33,15 @@ while [ $p -lt $nc ]; do
     # in range 1-100 (random enough for this use)
     k=$((RANDOM % 100))
 
-    if [ "$k" -lt 5 ]; then
-        # symbol 1
+    if [ "$k" -lt 4 ]; then
         sed -i "s/\,/\;/$k" "$fileOut"
-    elif [ "$k" -lt 10 ]; then
-        # symbol 2
+    elif [ "$k" -lt 8 ]; then
         sed -i "s/\,/\:/$k" "$fileOut"
+    elif [ "$k" -lt 12 ]; then
+        sed -i "s/\,/\ -/$k" "$fileOut"
+    elif [ "$k" -lt 16 ]; then
+        sed -i "s/\,/\.\.\./$k" "$fileOut"
     fi
-
     # increment $p regardless
     p=$((p+1))
 done 
