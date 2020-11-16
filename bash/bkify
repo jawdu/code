@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # take a text, turn it into mock-Bernard / mock-Krasznahorkai. Try a js one as well?
-# so e.g. eliminate full stops. dash or comma or semi colons, or ellipsis??
-# another idea: add few repeats of texts: e.g. sequence 'and wordw rodw words,'
 
 fileIn="$1"
 fileOut=$(echo "${fileIn%.*}.bkify.out.txt")
@@ -45,6 +43,15 @@ while [ $p -lt $nc ]; do
     # increment $p regardless
     p=$((p+1))
 done 
+
+# need to do this again, with new total commas
+
+# another idea: add few repeats of texts: e.g. sequence 'and wordw rodw words,'
+# try this? based on text between 2 commas? but skip it forward s.t.:
+# , [ text text text], [words words words], [REPEATED text text text]
+
+# "s/\,\([a-z ]*\+\,\)\( \+[a-z ]*\+\,\)/\,\1\2\1/"
+# ^ ?? not really working for nth ooccurence.
 
 echo "finished, output text is $fileOut"
 
