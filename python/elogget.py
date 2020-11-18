@@ -1,11 +1,12 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 # put together as a favour for someone to automate a task
 # sources: https://stackoverflow.com/a/59650691 https://stackoverflow.com/a/22857102
 
-# - checks unmonitored outlook address for unread emails
+# - checks the outlook for unread emails
 # - downloads any attachments (png, jpg, jpeg, gif) into 'outputdir'
 # - marks emails as read.
+# - write sender, subject, filename to info.txt for use with elog in shell script
 
 
 import imaplib
@@ -15,7 +16,7 @@ import os
 server = 'SERVER NAME'
 user = 'USER NAME'
 password = 'PASSWORD'
-outputdir = 'attachments'  # if you want to use pwd, remove the '/' in the open(outputdir + '/' + ... below)
+outputdir = 'new/'  # where to put downloaded files
 
 # connects to email client through IMAP
 def connect(server, user, password):
@@ -37,18 +38,19 @@ def dlAttachmentsInEmail(m, emailid, outputdir):
     for part in mail.walk():
         if part.get_content_maintype() != 'multipart' and part.get('Content-Disposition') is not None:
             if os.path.splitext(part.get_filename())[1] in {".png", ".jpg", ".jpeg", ".bmp", ".gif"}:
-                open(outputdir + '/' + part.get_filename(), 'wb').write(part.get_payload(decode=True))
+                open(outputdir + part.get_filename(), 'wb').write(part.get_payload(decode=True))
+                # write sender, subject, filename to file, info.txt is created and deleted in elloget.sh
+                f = open("info.txt", "a")
+                f.write(mail.get('From') + "\n")
+                f.write(mail.get('Subject') + "\n")
+                f.write(part.get_filename() + "\n")
+                f.close
 
-# download attachments from all emails with a specified subject line
-# as touched upon above, a search query is executed with a subject filter,
-# a list of msg objects are returned in msgs, and then looped through to 
-# obtain the emailid variable, which is then passed through to the above 
-# dlAttachmentsinEmail function
+# download attachments from all unread emails
 
-def subjectQuery(subject):
+def emailQuery():
     m = connect(server, user, password)
     m.select("Inbox")
-    #typ, msgs = m.search(None, '(SUBJECT "' + subject + '")')
     typ, msgs = m.search(None, '(UNSEEN)')    
     msgs = msgs[0].split()
     for emailid in msgs:
@@ -56,7 +58,5 @@ def subjectQuery(subject):
         # Mark them as seen
         m.store(emailid, '+FLAGS', '\Seen')
 
-subjectQuery(subject)
-
-
+emailQuery()
 

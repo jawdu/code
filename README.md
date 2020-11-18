@@ -26,7 +26,7 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
   
   - fractan: implementing Conway's fractran programming language
 
-  - elloget: quicky written as a favour for someone to automate workflow with emails, attachments (mostly synthesis of other people's work)
+  - elloget: written as a favour for someone to automate workflow with emails, attachments (mostly synthesis of other people's work), elog.
 
   - python codeGolf
 
