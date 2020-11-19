@@ -11,6 +11,8 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
   - tidytext: cut&paste into newfile, tailored & obscurely useful for me and my txt scrapbooks
 
   - bkify: turn a text file into a pseudo mitteleuropa postwar text (a la Bernhard, Krasznahorkai, ...)
+
+  - elogget.sh: control script for elogget.py, to automate an email workflow with attachments for elog
  
 - cpp
 
@@ -26,7 +28,7 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
   
   - fractan: implementing Conway's fractran programming language
 
-  - elloget: written as a favour for someone to automate workflow with emails, attachments (mostly synthesis of other people's work), elog.
+  - elogget: written as a favour for someone to automate workflow with emails, attachments (mostly synthesis of other people's work), elog.
 
   - python codeGolf
 
