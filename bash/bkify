@@ -17,8 +17,11 @@ tr '[:upper:]' '[:lower:]' <$fileOut >tfile && mv tfile $fileOut
 # replace 1st character with stored capital
 sed -i "0,/./s/^./$c1/g" "$fileOut"
 
-# at the moment - just add comma. need to deal with both line break & spaces -> extra spaces
+# add comma
 sed -i "s/\([a-z]*\)\+\.\+/\1\, /g" "$fileOut"
+
+# lazily replace *single* !, ? with comma here rather than above (trouble with all-in-one)
+sed -i "s/[?\!]/\,/g" "$fileOut"
 
 # eliminate any extras spaces that creep in
 tr -s ' ' <$fileOut >tfile && mv tfile $fileOut
