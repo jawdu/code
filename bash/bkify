@@ -18,10 +18,12 @@ tr '[:upper:]' '[:lower:]' <$fileOut >tfile && mv tfile $fileOut
 sed -i "0,/./s/^./$c1/g" "$fileOut"
 
 # add comma
-sed -i "s/\([a-z]*\)\+\.\+/\1\, /g" "$fileOut"
-
+sed -i "s/\([a-z]*\)\+\.+/\1\, /g" "$fileOut"
 # lazily replace *single* !, ? with comma here rather than above (trouble with all-in-one)
-sed -i "s/[?\!]/\,/g" "$fileOut"
+sed -i "s/[?!]/\,/g" "$fileOut"
+
+#sed -i "s/\([a-z]*\)\+[[:punct:]]*/\1\, /g" "$fileOut"
+# ^ be nice to sort this out. in command line e.g. > echo 'hello!?!! hello?' | sed 's/\([a-z]*\)\+[?!]*/\1\,/g'
 
 # eliminate any extras spaces that creep in
 tr -s ' ' <$fileOut >tfile && mv tfile $fileOut
