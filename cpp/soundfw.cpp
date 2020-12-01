@@ -1,19 +1,40 @@
 // get writing .wav for cpp sorted
+// https://stackoverflow.com/a/31038528
 
 
-/*
-
-https://stackoverflow.com/a/31038528
 
 #include <iostream>
 #include <fstream>
 #include <cmath>
 using namespace std;
 
+// global variables
+// function list
+
+
+int main()
+{
+    // just test filename stuff 1st
+
+    std::string fileName = "test.wav";
+
+    cout << endl << "filename: " << fileName << endl;
+
+    return 0;
+
+}
+
+// functions
+
+
+/*
+
+// https://stackoverflow.com/a/50916141 tog et filename with timestamp
 
 
 ofstream stream;
 stream.open("sine.wav", ios::out | ios::binary);
+// iftsream myfile(file_name.c_str()); if not cpp11
 
 int bufferSize = (1/frequency)*samplerate; 
 stream.write("RIFF", 4);                    // RIFF chunk
