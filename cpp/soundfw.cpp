@@ -1,8 +1,13 @@
 // get writing .wav for cpp sorted
 
-/* more to do
+/* sources:
 
+https://www.cplusplus.com/forum/beginner/166954/#msg840873 
+
+
+just need to  prepare date stamp next as well
 https://stackoverflow.com/a/50916141 tog et filename with timestamp
+
 
 */
 
@@ -10,7 +15,21 @@ https://stackoverflow.com/a/50916141 tog et filename with timestamp
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <cstdlib> 				// for random
 using namespace std;
+
+// namespace littleEndian for .wavs to ensure file headers written correctly
+namespace littleEndian
+{
+    template <typename Word>
+    std::ostream& writeWord( std::ostream& outs, Word value, unsigned size = sizeof( Word ) )
+    {
+        for (; size; --size, value >>= 8)
+            outs.put( static_cast <char> (value & 0xFF) );
+        return outs;
+    }
+}
+using namespace littleEndian;
 
 // global variables
 // function list
@@ -19,8 +38,6 @@ void writeWav(string fileName);
 
 int main()
 {
-
-    // prepare date stamp next as well
     std::string fileName = "test.wav";
     cout << endl << "filename: " << fileName << endl;
     
@@ -34,44 +51,48 @@ int main()
 
 void writeWav(string fileName)
 {
-    // https://stackoverflow.com/a/31038528
-
-    //https://www.reddit.com/r/cpp/comments/85uzkr/github_supersimple_intro_program_for_generating/
-    //^ compare and contrast?
-
-
     ofstream stream;
     stream.open(fileName.c_str(), ios::out | ios::binary);
 
-/*    double samplerate = 44100.00; // Sample rate
-    double frequency = 200.00; // Frequency
+     // Write the file headers
+    stream << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
+    writeWord( stream,     16, 4 );        // no extension data
+    writeWord( stream,      1, 2 );         // PCM - integer samples
+    writeWord( stream,      2, 2 );         // two channels (stereo file)
+    writeWord( stream,  44100, 4 );     // samples per second (Hz)
+    writeWord( stream, 176400, 4 );    // (Sample Rate * BitsPerSample * Channels) / 8
+    writeWord( stream,      4, 2 );         // data block size (size of two integer samples, one for each channel, in bytes)
+    writeWord( stream,     16, 2 );        // number of bits per sample (use a multiple of 8)
 
-    int bufferSize = (1/frequency)*samplerate; 
-    stream.write("RIFF", 4);                    // RIFF chunk
-    write<int>(stream, 36 + bufferSize*sizeof(int)); // RIFF chunk size in bytes
-    stream.write("WAVE", 4);                    // WAVE chunk
-    stream.write("fmt ", 4);                    // fmt chunk
-    write32(stream, 16);                     // size of fmt chunk
-    write16(stream, 1);                       // Format = PCM
-    write16(stream, 1);                       // # of Channels
-    write32(stream, samplerate);                // Sample Rate  
-    write32(stream, samplerate*sizeof(int));    // Byte rate
-    write16(stream, sizeof(int));             // Frame size
-    write16(stream, 24);                      // Bits per sample
-    stream.write("data", 4);                   // data chunk
-    write32(stream, bufferSize*sizeof(int));   // data chunk size in bytes
+    // Write the data chunk header
+    size_t dataChunkPos = stream.tellp();
+    stream << "data----";                    // (chunk size to be filled in later)
 
+    double maxAmp = 32760;  // "volume"
+    double hz = 44100;                       // samples per second
+    // double frequency = 261.626;      // middle C
+    double seconds  = 1.0;                  // time
+    
+    int N = hz * seconds;                     // total number of samples
 
-    // Now that the header is out of the way, you'll just need to modify your loop to first convert the double (-1.0,1.0) samples into 32-bit signed int. Truncate the bottom 8-bits since you only want 24-bit and then write out the data. Just so you know, it is common practice to store 24-bit samples inside of a 32-bit word because it is much easier to stride through using native types.
+    // write stuff to wavs
 
-    for (int i = 0; i < bufferSize; ++i) // 
+    for (int n = 0; n < N; n++)
     {
-        double tmp = 0.0;  // what the osund is (or grab from array) so this is dummy val for now
-        int intVal = (int)(tmp * 2147483647.0) & 0xffffff00;
-        stream << intVal;
+        writeWord( stream, (int)((maxAmp * (rand() / ((double) RAND_MAX))) - 16000), 2 );
+        writeWord( stream, (int)((maxAmp * (rand() / ((double) RAND_MAX))) - 16000), 2 );
     }
-*/
-    return 0;
+
+    // (We'll need the final file size to fix the chunk sizes above)
+    size_t fileLength = stream.tellp();
+
+    // Fix the data chunk header to contain the data size
+    stream.seekp( dataChunkPos + 4 );
+    writeWord( stream, fileLength - dataChunkPos + 8 );
+
+    // Fix the file header to contain the proper RIFF chunk size, which is (file size - 8) bytes
+    stream.seekp( 0 + 4 );
+    writeWord( stream, fileLength - 8, 4 ); 
 
 }
 
