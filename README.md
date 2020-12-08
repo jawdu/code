@@ -18,6 +18,8 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
   - cstrings: rewrote my MPhys disseration code, from MATLAB into C++
 
+  - soundfw: barebones stuff needed to write a .wav in C++ (future project prep)
+
 - python
 
   - skrejd: parallel to glijd, medium term screw with audio project
