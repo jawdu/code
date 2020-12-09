@@ -1,21 +1,15 @@
-// get writing .wav for cpp sorted
+/*      --- simple output wav framework for c++, to get working to use in future ---
 
-/* sources:
-
-https://www.cplusplus.com/forum/beginner/166954/#msg840873 
-
-
-just need to  prepare date stamp next as well
-https://stackoverflow.com/a/50916141 tog et filename with timestamp
-
+    source:  https://www.cplusplus.com/forum/beginner/166954/#msg840873 
 
 */
-
 
 #include <iostream>
 #include <fstream>
 #include <cmath>
 #include <cstdlib> 				// for random
+#include <string>
+#include <sstream>
 using namespace std;
 
 // namespace littleEndian for .wavs to ensure file headers written correctly
@@ -31,17 +25,20 @@ namespace littleEndian
 }
 using namespace littleEndian;
 
-// global variables
-// function list
-
 void writeWav(string fileName);
 
 int main()
 {
-    std::string fileName = "test.wav";
-    cout << endl << "filename: " << fileName << endl;
+    // date stamp
+
+    std::stringstream ss;
+    ss << time(0);  
+    std::string ts = ss.str();
+    std::string fileName = "test" + ts + ".wav";
     
     writeWav(fileName);
+
+    cout << endl << "done, filename: " << fileName << endl;
  
     return 0;
 
@@ -79,6 +76,7 @@ void writeWav(string fileName)
 
     for (int n = 0; n < N; n++)
     {
+        // white noise
         writeWord( stream, (int)((maxAmp * (rand() / ((double) RAND_MAX))) - 16000), 2 );
         writeWord( stream, (int)((maxAmp * (rand() / ((double) RAND_MAX))) - 16000), 2 );
     }
