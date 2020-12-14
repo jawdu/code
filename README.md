@@ -10,7 +10,7 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
   - tidytext: cut&paste into newfile, tailored & obscurely useful for me and my txt scrapbooks
 
-  - bkify: turn a text file into a pseudo mitteleuropa postwar text (a la Bernhard, Krasznahorkai, ...)
+  - bkify: turn a text file into a pseudo mitteleuropa C20 text (a la Bernhard, Krasznahorkai, ...)
 
   - elogget.sh: control script for elogget.py, to automate an email workflow with attachments for elog
  
