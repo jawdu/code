@@ -76,7 +76,7 @@ void writeWav(string fileName)
 
     for (int n = 0; n < N; n++)
     {
-        // white noise
+        // white noise to check we're working
         writeWord( stream, (int)((maxAmp * (rand() / ((double) RAND_MAX))) - 16000), 2 );
         writeWord( stream, (int)((maxAmp * (rand() / ((double) RAND_MAX))) - 16000), 2 );
     }
@@ -93,12 +93,6 @@ void writeWav(string fileName)
     writeWord( stream, fileLength - 8, 4 ); 
 
 }
-
-
-
-
-
-
 
 
 
