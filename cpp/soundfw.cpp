@@ -30,11 +30,9 @@ void writeWav(string fileName);
 int main()
 {
     // date stamp
-
     std::stringstream ss;
     ss << time(0);  
-    std::string ts = ss.str();
-    std::string fileName = "test" + ts + ".wav";
+    std::string fileName = "test" + ss.str() + ".wav";
     
     writeWav(fileName);
 
