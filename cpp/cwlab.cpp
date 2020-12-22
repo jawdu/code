@@ -3,7 +3,7 @@
     C++WavLab. Try stuff out. output stuff from soundfw.cpp 
 
     idea: xenakis/noise/clusters  -take (1) bits from ruby (2) some high-freq stuff (microsound)
-    and try to make complex arrangements in (L-R)+time
+    and try to make complex arrangements in (L-R)+time. & little 'string' fragments. stray beats?
 
 */
 
@@ -36,22 +36,25 @@ int main()
     vector<double> lChannel, rChannel;
     
     double hz = 44100;                       // samples per second
-    double seconds  = 10.0;                  // time
+    double seconds  = 10.0;               // time *** don't know how this will work once I make it looser
     int N = hz * seconds;                     // total number of samples
 
-    std::stringstream ss;
+    std::stringstream ss;                                                               // setup filename with timestamp
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
    
-    for (int n = 0; n < N; n++)
+    for (int n = 0; n < N; n++)                                         
     {
-        lChannel.push_back(randDouble(-1.0, 1.0));
-        rChannel.push_back(randDouble(-1.0, 1.0));
+        if (randDouble(0.0, 1.0) < 0.01) {
+            lChannel.push_back(randDouble(-1.0, 1.0));
+            rChannel.push_back(randDouble(-1.0, 1.0));
+        } else {
+            lChannel.push_back(0.0);
+            rChannel.push_back(0.0);
+        }
     }
 
-    // up to 1000 seconds pretty quick to write to .wav, no issues.
-    writeWav(fileName, N, lChannel, rChannel);
-
+    writeWav(fileName, N, lChannel, rChannel);                          // write .wav and finish
     cout << endl << "done, filename: " << fileName << endl;
  
     return 0;
@@ -66,7 +69,6 @@ double randDouble(double min, double max)
     double div = RAND_MAX / range;
     return min + (rand() / div);
 }
-
 
 void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rChannel)              
 {
@@ -87,9 +89,9 @@ void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rC
     size_t dataChunkPos = stream.tellp();
     stream << "data----";                    // (chunk size to be filled in later)
 
-    double maxAmp = 32760;  // "volume"
+    double maxAmp = 32760;          // "volume" 
 
-    // write stuff to wavs
+    // write stuff to wavs. note: setting up so that lChannel, rChannel in range [-1, 1].
 
     for (int n = 0; n < N; n++)
     {
