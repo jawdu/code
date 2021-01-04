@@ -5,6 +5,8 @@
     idea: xenakis/noise/clusters  -take (1) bits from ruby (2) some high-freq stuff (microsound)
     and try to make complex arrangements in (L-R)+time. & little 'string' fragments. stray beats?
 
+    start: work on waveforms. try make 'electroacoustics' that slowly evolves.
+
 */
 
 #include <iostream>
@@ -36,22 +38,45 @@ int main()
     vector<double> lChannel, rChannel;
     
     double hz = 44100;                       // samples per second
-    double seconds  = 10.0;               // time *** don't know how this will work once I make it looser
+    double seconds  = 50.0;               // time *** don't know how this will work once I make it looser
     int N = hz * seconds;                     // total number of samples
 
     std::stringstream ss;                                                               // setup filename with timestamp
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
    
+    // so now: just do a 'random' fourier series. some arrays of coefficients.
+    // define arrays of coefficients. reminder: https://en.wikipedia.org/wiki/Additive_synthesis
+
+    vector<double> a, r, f;
+    int nF = 40;
+    for (int n = 0; n < nF; n++)
+    {
+        a.push_back(randDouble(3.1, 3.99));
+        r.push_back(randDouble(0.2, 0.7));
+        f.push_back(randDouble(40.0, 1000.0));
+    }
+
     for (int n = 0; n < N; n++)                                         
     {
-        if (randDouble(0.0, 1.0) < 0.01) {
+        double v = 0.0;
+        for (int p = 0; p < nF; p++)
+        {
+            v = v + r[p]*cos(6.28*f[p]*n/44100.0);
+            r[p] = a[p]*r[p]*(1-r[p]);
+        }
+
+        lChannel.push_back(v/(double)nF);
+        rChannel.push_back(v/(double)nF);
+
+
+        /* if (randDouble(0.0, 1.0) < 0.01) {
             lChannel.push_back(randDouble(-1.0, 1.0));
             rChannel.push_back(randDouble(-1.0, 1.0));
         } else {
             lChannel.push_back(0.0);
             rChannel.push_back(0.0);
-        }
+        } */
     }
 
     writeWav(fileName, N, lChannel, rChannel);                          // write .wav and finish
