@@ -44,21 +44,19 @@ int main()
     std::stringstream ss;                                                               // setup filename with timestamp
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
-   
-    // so now: just do a 'random' fourier series. some arrays of coefficients.
-    // define arrays of coefficients. reminder: https://en.wikipedia.org/wiki/Additive_synthesis
-
+  
     vector<double> a, r, f;
-    int nF = 40;
+    int nF = 50;
     for (int n = 0; n < nF; n++)
     {
         a.push_back(randDouble(3.1, 3.99));
         r.push_back(randDouble(0.2, 0.7));
-        f.push_back(randDouble(40.0, 1000.0));
+        f.push_back(randDouble(20.0, 1000.0));
     }
 
     for (int n = 0; n < N; n++)                                         
     {
+        // took out that variance for f, put in cw.old.cpp for now. 
         double v = 0.0;
         for (int p = 0; p < nF; p++)
         {
@@ -69,14 +67,6 @@ int main()
         lChannel.push_back(v/(double)nF);
         rChannel.push_back(v/(double)nF);
 
-
-        /* if (randDouble(0.0, 1.0) < 0.01) {
-            lChannel.push_back(randDouble(-1.0, 1.0));
-            rChannel.push_back(randDouble(-1.0, 1.0));
-        } else {
-            lChannel.push_back(0.0);
-            rChannel.push_back(0.0);
-        } */
     }
 
     writeWav(fileName, N, lChannel, rChannel);                          // write .wav and finish
