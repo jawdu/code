@@ -32,6 +32,7 @@ using namespace littleEndian;
 
 void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rChannel);
 double randDouble(double min, double max);
+vector<double> makeF(int nF);
 
 int main()
 {
@@ -45,13 +46,17 @@ int main()
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
   
-    vector<double> a, r, f;
-    int nF = 50;
+    int nF = 60;
+    vector<double> a, r;
+    vector<double> f = makeF(nF);
+    // soon enough, makeA and makeR
+
     for (int n = 0; n < nF; n++)
     {
+        // think need to think about a, r now.probably masking the f stuff.
         a.push_back(randDouble(3.1, 3.99));
         r.push_back(randDouble(0.2, 0.7));
-        f.push_back(randDouble(20.0, 1000.0));
+        //f.push_back(randDouble(20.0, 1000.0));
     }
 
     for (int n = 0; n < N; n++)                                         
@@ -76,6 +81,22 @@ int main()
 }
 
 // functions
+
+vector<double> makeF(int nF)
+{
+    vector<double> f;
+
+    for (int p = 0; p < 10; p++)
+    {
+        double f1 = randDouble(20.0, 600.0);
+        for (int q = 0; q < 6; q++)
+        {
+            // 5 and 2, who knows
+            f.push_back((5+q)*f1 / (2+q));
+        }
+    }
+    return f;
+}
 
 double randDouble(double min, double max)
 {

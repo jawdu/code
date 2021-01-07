@@ -14,7 +14,7 @@ def lofi(ns, audio):
        whole_lofi(ns, audio, bitrate, modval)         
     else:
         dscale=44100*inputs.askfunc("Enter density scale in seconds, or 'd' for default: ", "density scale", int, 1, 100, 10)
-        lscale=44100* inputs.askfunc("Enter length scale in seconds, or 'd' for default: ", "density scale", int, 1, 100, 5)
+        lscale=44100* inputs.askfunc("Enter length scale in seconds, or 'd' for default: ", "length scale", int, 1, 100, 5)
 
         p1 = random.randint(0, dscale)
         while (p1 < (ns - lscale)):
