@@ -9,6 +9,7 @@
 
 */
 
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -33,6 +34,8 @@ using namespace littleEndian;
 void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rChannel);
 double randDouble(double min, double max);
 vector<double> makeF(int nF);
+vector<double> makeA(int nF);
+double maxF(int nF, vector<double> a);
 
 int main()
 {
@@ -46,31 +49,22 @@ int main()
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
   
-    int nF = 60;
-    vector<double> a, r;
+    int nF = 60; // NOTE makeF fixed for use of 60
+    vector<double> a = makeA(nF);
     vector<double> f = makeF(nF);
-    // soon enough, makeA and makeR
-
-    for (int n = 0; n < nF; n++)
-    {
-        // think need to think about a, r now.probably masking the f stuff.
-        a.push_back(randDouble(3.1, 3.99));
-        r.push_back(randDouble(0.2, 0.7));
-        //f.push_back(randDouble(20.0, 1000.0));
-    }
+    double aF = maxF(nF, a) * nF;
 
     for (int n = 0; n < N; n++)                                         
     {
-        // took out that variance for f, put in cw.old.cpp for now. 
         double v = 0.0;
         for (int p = 0; p < nF; p++)
         {
-            v = v + r[p]*cos(6.28*f[p]*n/44100.0);
-            r[p] = a[p]*r[p]*(1-r[p]);
+            v = v + a[p]*cos(6.28*f[p]*n/44100.0);
         }
 
-        lChannel.push_back(v/(double)nF);
-        rChannel.push_back(v/(double)nF);
+        // try aF not nF
+        lChannel.push_back(v/(double)aF);
+        rChannel.push_back(v/(double)aF);
 
     }
 
@@ -81,6 +75,11 @@ int main()
 }
 
 // functions
+
+static bool abs_compare(double a, double b)
+{
+    return (std::abs(a) < std::abs(b));
+}
 
 vector<double> makeF(int nF)
 {
@@ -96,6 +95,32 @@ vector<double> makeF(int nF)
         }
     }
     return f;
+}
+
+vector<double> makeA(int nF)
+{
+    vector<double> a;
+    
+    for (int p = 0; p < nF; p++)
+    {
+        a.push_back(randDouble(0.2, 0.8));
+    }
+    return a;
+}
+
+double maxF(int nF, vector<double> a)
+{
+    double aF = 0.0;
+    
+    for (int p = 0; p < nF; p++)
+    {
+        aF = aF + *max_element(a.begin(), a.end(), abs_compare);
+    }
+    aF = aF / nF;
+
+    // cout << endl << aF << endl;
+
+    return aF;
 }
 
 double randDouble(double min, double max)
