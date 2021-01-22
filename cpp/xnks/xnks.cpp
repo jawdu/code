@@ -1,6 +1,11 @@
 /*      
 
-    C++WavLab. Try stuff out. output stuff from soundfw.cpp 
+    start to structure this properly now. headers, makefile, etc
+
+    idea: xenakis/noise/clusters  -take (1) bits from ruby (2) some high-freq stuff (microsound)
+    and try to make complex arrangements in (L-R)+time. & little 'string' fragments. stray beats?
+
+    start: work on waveforms. try make 'electroacoustics' that slowly evolves.
 
 */
 
@@ -112,8 +117,6 @@ double maxF(int nF, vector<double> a)
         aF = aF + *max_element(a.begin(), a.end(), abs_compare);
     }
     aF = aF / nF;
-
-    // cout << endl << aF << endl;
 
     return aF;
 }
