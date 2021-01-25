@@ -1,6 +1,6 @@
 /*      
 
-    start to structure this properly now. headers, makefile, etc
+    start to structure this properly now. headers, makefile, etc 
 
     idea: xenakis/noise/clusters  -take (1) bits from ruby (2) some high-freq stuff (microsound)
     and try to make complex arrangements in (L-R)+time. & little 'string' fragments. stray beats?
@@ -17,7 +17,14 @@
 #include <string>
 #include <sstream>
 #include <vector>
+
+#include "utils.h"
+
+// deprecate this
 using namespace std;
+
+using std::cin;        using std::endl;		
+using std::cout;		using std::string;
 
 namespace littleEndian
 {
@@ -31,15 +38,13 @@ namespace littleEndian
 }
 using namespace littleEndian;
 
-void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rChannel);
-double randDouble(double min, double max);
-vector<double> makeF(int nF);
-vector<double> makeA(int nF);
-double maxF(int nF, vector<double> a);
+void writeWav(string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel);
+std::vector<double> makeF(int nF);
+std::vector<double> makeA(int nF);
 
 int main()
 {
-    vector<double> lChannel, rChannel;
+    std::vector<double> lChannel, rChannel;
     
     double hz = 44100;                       // samples per second
     double seconds  = 50.0;               // time *** don't know how this will work once I make it looser
@@ -50,8 +55,8 @@ int main()
     std::string fileName = "test" + ss.str() + ".wav";
   
     int nF = 60; // NOTE makeF fixed for use of 60
-    vector<double> a = makeA(nF);
-    vector<double> f = makeF(nF);
+    std::vector<double> a = makeA(nF);
+    std::vector<double> f = makeF(nF);
     double aF = maxF(nF, a) * nF;
 
     for (int n = 0; n < N; n++)                                         
@@ -76,14 +81,9 @@ int main()
 
 // functions
 
-static bool abs_compare(double a, double b)
+std::vector<double> makeF(int nF)
 {
-    return (std::abs(a) < std::abs(b));
-}
-
-vector<double> makeF(int nF)
-{
-    vector<double> f;
+    std::vector<double> f;
 
     for (int p = 0; p < 10; p++)
     {
@@ -97,9 +97,9 @@ vector<double> makeF(int nF)
     return f;
 }
 
-vector<double> makeA(int nF)
+std::vector<double> makeA(int nF)
 {
-    vector<double> a;
+    std::vector<double> a;
     
     for (int p = 0; p < nF; p++)
     {
@@ -108,28 +108,7 @@ vector<double> makeA(int nF)
     return a;
 }
 
-double maxF(int nF, vector<double> a)
-{
-    double aF = 0.0;
-    
-    for (int p = 0; p < nF; p++)
-    {
-        aF = aF + *max_element(a.begin(), a.end(), abs_compare);
-    }
-    aF = aF / nF;
-
-    return aF;
-}
-
-double randDouble(double min, double max)
-{
-    // random double between min and max
-    double range = (max - min); 
-    double div = RAND_MAX / range;
-    return min + (rand() / div);
-}
-
-void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rChannel)              
+void writeWav(std::string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel)              
 {
     ofstream stream;
     stream.open(fileName.c_str(), ios::out | ios::binary);
@@ -170,6 +149,7 @@ void writeWav(string fileName, int N, vector<double> lChannel, vector<double> rC
     writeWord( stream, fileLength - 8, 4 ); 
 
 }
+
 
 
 
