@@ -1,12 +1,8 @@
 /*      
-
-    start to structure this properly now. headers, makefile, etc 
-
     idea: xenakis/noise/clusters  -take (1) bits from ruby (2) some high-freq stuff (microsound)
     and try to make complex arrangements in (L-R)+time. & little 'string' fragments. stray beats?
 
     start: work on waveforms. try make 'electroacoustics' that slowly evolves.
-
 */
 
 #include <algorithm>
@@ -19,12 +15,10 @@
 #include <vector>
 
 #include "utils.h"
+#include "scntrl.h"
 
-// deprecate this
-using namespace std;
-
-using std::cin;        using std::endl;		
-using std::cout;		using std::string;
+using std::cin;         using std::endl;		
+using std::cout;       using std::string;
 
 namespace littleEndian
 {
@@ -39,8 +33,6 @@ namespace littleEndian
 using namespace littleEndian;
 
 void writeWav(string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel);
-std::vector<double> makeF(int nF);
-std::vector<double> makeA(int nF);
 
 int main()
 {
@@ -54,6 +46,8 @@ int main()
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
   
+    // next: move this into scntrl
+
     int nF = 60; // NOTE makeF fixed for use of 60
     std::vector<double> a = makeA(nF);
     std::vector<double> f = makeF(nF);
@@ -81,37 +75,11 @@ int main()
 
 // functions
 
-std::vector<double> makeF(int nF)
-{
-    std::vector<double> f;
-
-    for (int p = 0; p < 10; p++)
-    {
-        double f1 = randDouble(20.0, 600.0);
-        for (int q = 0; q < 6; q++)
-        {
-            // 5 and 2, who knows
-            f.push_back((5+q)*f1 / (2+q));
-        }
-    }
-    return f;
-}
-
-std::vector<double> makeA(int nF)
-{
-    std::vector<double> a;
-    
-    for (int p = 0; p < nF; p++)
-    {
-        a.push_back(randDouble(0.2, 0.8));
-    }
-    return a;
-}
 
 void writeWav(std::string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel)              
 {
-    ofstream stream;
-    stream.open(fileName.c_str(), ios::out | ios::binary);
+    std::ofstream stream;
+    stream.open(fileName.c_str(), std::ios::out | std::ios::binary);
 
      // Write the file headers
     stream << "RIFF----WAVEfmt ";     // (chunk size to be filled in later)
