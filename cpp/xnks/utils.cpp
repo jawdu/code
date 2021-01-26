@@ -1,10 +1,8 @@
-// utility functions
+// utility functions. intention here is to include anything not-explicitly sound-making-y
 
 #include "utils.h"
 #include <algorithm>
 #include <cmath>
-#include <cstdlib> 				
-#include <string>
 #include <vector>
 
 static bool abs_compare(double a, double b)

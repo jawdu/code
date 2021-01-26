@@ -1,10 +1,32 @@
-// sound control
+// sound control.
 
 #include "scntrl.h"
 #include "utils.h"
 
 #include <cmath>
 #include <vector>
+
+void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
+{
+    // this is the main point of entry for making sound.
+
+    int nF = 60; // NOTE makeF fixed for use of 60
+    std::vector<double> a = makeA(nF);
+    std::vector<double> f = makeF(nF);
+    double aF = maxF(nF, a) * nF;
+
+    for (int n = 0; n < N; n++)                                         
+    {
+        double v = 0.0;
+        for (int p = 0; p < nF; p++)
+        {
+            v = v + a[p]*cos(6.28*f[p]*n/44100.0);
+        }
+        // try aF not nF
+        lChannel.push_back(v/(double)aF);
+        rChannel.push_back(v/(double)aF);
+    }
+}
 
 std::vector<double> makeF(int nF)
 {

@@ -5,11 +5,8 @@
     start: work on waveforms. try make 'electroacoustics' that slowly evolves.
 */
 
-#include <algorithm>
 #include <iostream>
 #include <fstream>
-#include <cmath>
-#include <cstdlib> 				
 #include <string>
 #include <sstream>
 #include <vector>
@@ -33,48 +30,49 @@ namespace littleEndian
 using namespace littleEndian;
 
 void writeWav(string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel);
+int getLen();
 
 int main()
 {
     std::vector<double> lChannel, rChannel;
-    
-    double hz = 44100;                       // samples per second
-    double seconds  = 50.0;               // time *** don't know how this will work once I make it looser
-    int N = hz * seconds;                     // total number of samples
 
     std::stringstream ss;                                                               // setup filename with timestamp
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
   
-    // next: move this into scntrl
-
-    int nF = 60; // NOTE makeF fixed for use of 60
-    std::vector<double> a = makeA(nF);
-    std::vector<double> f = makeF(nF);
-    double aF = maxF(nF, a) * nF;
-
-    for (int n = 0; n < N; n++)                                         
-    {
-        double v = 0.0;
-        for (int p = 0; p < nF; p++)
-        {
-            v = v + a[p]*cos(6.28*f[p]*n/44100.0);
-        }
-
-        // try aF not nF
-        lChannel.push_back(v/(double)aF);
-        rChannel.push_back(v/(double)aF);
-
-    }
-
+    int N = getLen();
+    smain(N, lChannel, rChannel);
     writeWav(fileName, N, lChannel, rChannel);                          // write .wav and finish
     cout << endl << "done, filename: " << fileName << endl;
  
     return 0;
 }
 
-// functions
+// functions for IO
 
+int getLen()
+{
+    double hz = 44100;                       // samples per second
+    double seconds  = 50.0;               // this will do for default
+    int N = hz * seconds;                     // total number of samples
+    /*
+    int inVal;
+    int N;
+
+    cout << endl << " Enter duration in seconds, or non-integer number for default: " << endl;
+    std::cin >> inVal;						
+    if (inVal >> N) {
+    // suitable number
+    N = hz * inVal;    
+    } else  {
+    // use default
+    N = hz * seconds;
+    }
+    cout << endl << " value: " << inVal;
+    cout << endl << " value: " << N;
+    */
+    return N;
+}
 
 void writeWav(std::string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel)              
 {
