@@ -20,6 +20,8 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
   - soundfw: barebones stuff needed to write a .wav in C++ (future project prep)
 
+  - xnks: nascent experiment in producing sound; loose model/inspiration = Iannis Xenakis.
+
 - python
 
   - skrejd: parallel to glijd, medium term screw with audio project
