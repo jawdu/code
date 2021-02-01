@@ -1,2 +1,6 @@
 # use this for local readme, etc #
 *.local
+
+# stray audio files #
+*.wav
+*.mp3
