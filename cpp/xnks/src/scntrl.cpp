@@ -8,16 +8,16 @@
 
 void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {
-    // this is the main point of entry for making sound.
+    // main point of entry for making sound. by the end, created and populated lChannel, rChannel
 
 
-    /* part 1: make arrays to control events. or just make a class.
+    /* part 1: make arrays to control events.
         1: time (integer, so index for lChan, rChan start point of event)
         2: pan (?) maybe integer ok to save memory (in range e.g. -100-100)
         3+: some to characterise the event now. maybe one will be used to forward ref. chains
     */
 
-    int nF = 60; // NOTE makeF fixed for use of 60
+    int nF = 60; // NOTE makeF fixed for use of 60. but this will depreciate anyway.
     std::vector<double> a = makeA(nF);
     std::vector<double> f = makeF(nF);
     double aF = maxF(nF, a) * nF;
@@ -33,6 +33,9 @@ void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
         lChannel.push_back(v/(double)aF);
         rChannel.push_back(v/(double)aF);
     }
+
+    // finished; main will write .wav and finish.
+
 }
 
 std::vector<double> makeF(int nF)
