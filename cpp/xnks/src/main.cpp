@@ -11,8 +11,9 @@
 #include <sstream>
 #include <vector>
 
-#include "utils.h"
+#include "arrange.h"
 #include "scntrl.h"
+#include "utils.h"
 
 using std::cin;         using std::endl;		
 using std::cout;       using std::string;

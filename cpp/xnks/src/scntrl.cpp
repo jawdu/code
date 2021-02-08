@@ -1,5 +1,6 @@
 // sound control.
 
+#include "arrange.h"
 #include "scntrl.h"
 #include "utils.h"
 
@@ -10,11 +11,14 @@ void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {
     // main point of entry for making sound. by the end, created and populated lChannel, rChannel
 
-
     /* part 1: make arrays to control events.
         1: time (integer, so index for lChan, rChan start point of event)
         2: pan (?) maybe integer ok to save memory (in range e.g. -100-100)
         3+: some to characterise the event now. maybe one will be used to forward ref. chains
+
+        arrange.cpp to hold functions that arrange, characterise events, etc.
+        create.cpp to hold functions to derive sound events, i guess?
+
     */
 
     int nF = 60; // NOTE makeF fixed for use of 60. but this will depreciate anyway.
