@@ -1,6 +1,7 @@
 // sound control.
 
 #include "arrange.h"
+#include "create.h"
 #include "scntrl.h"
 #include "utils.h"
 
@@ -18,12 +19,13 @@ void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 
         arrange.cpp to hold functions that arrange, characterise events, etc.
         create.cpp to hold functions to derive sound events, i guess?
+        eventually may be arbitrary length - i.e. when the sound ends is determined stochasticly on the fly(ish)
 
     */
 
     int nF = 60; // NOTE makeF fixed for use of 60. but this will depreciate anyway.
-    std::vector<double> a = makeA(nF);
-    std::vector<double> f = makeF(nF);
+    std::vector<double> a = makeA(nF);       // will hopefully depreciate
+    std::vector<double> f = makeF(nF);       // will hopefully depreciate
     double aF = maxF(nF, a) * nF;
 
     for (int n = 0; n < N; n++)                                         
@@ -33,7 +35,6 @@ void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
         {
             v = v + a[p]*cos(6.28*f[p]*n/44100.0);
         }
-        // try aF not nF
         lChannel.push_back(v/(double)aF);
         rChannel.push_back(v/(double)aF);
     }
@@ -42,31 +43,6 @@ void smain(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 
 }
 
-std::vector<double> makeF(int nF)
-{
-    std::vector<double> f;
 
-    for (int p = 0; p < 10; p++)
-    {
-        double f1 = randDouble(20.0, 600.0);
-        for (int q = 0; q < 6; q++)
-        {
-            // 5 and 2, who knows
-            f.push_back((5+q)*f1 / (2+q));
-        }
-    }
-    return f;
-}
-
-std::vector<double> makeA(int nF)
-{
-    std::vector<double> a;
-    
-    for (int p = 0; p < nF; p++)
-    {
-        a.push_back(randDouble(0.2, 0.8));
-    }
-    return a;
-}
 
 

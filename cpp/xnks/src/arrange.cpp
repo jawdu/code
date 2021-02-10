@@ -6,6 +6,7 @@
 
 void placeholder(){
     // what it says. placeholder.
+    // use [statistical distribution] to obtain *time-gaps* between events rather than test at each time step
 
 
 }

@@ -41,7 +41,8 @@ int main()
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
   
-    int N = getLen();
+    int N = getLen();               // at some point length will end up a stochastic variable. 
+
     smain(N, lChannel, rChannel);
     writeWav(fileName, N, lChannel, rChannel);                          // write .wav and finish
     cout << endl << "done, filename: " << fileName << endl;
