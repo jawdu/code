@@ -12,8 +12,10 @@
 #include <vector>
 
 #include "arrange.h"
+#include "create.h"
 #include "scntrl.h"
 #include "utils.h"
+#include "wavelets.h"
 
 using std::cin;         using std::endl;		
 using std::cout;       using std::string;
