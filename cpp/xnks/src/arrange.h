@@ -1,2 +1,3 @@
 #include <vector>
-void placeholder();
+void mtest(int N, std::vector<double>& lChannel, std::vector<double>& rChannel);
+void placeholder(int N, std::vector<double>& lChannel, std::vector<double>& rChannel);

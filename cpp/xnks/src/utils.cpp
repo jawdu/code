@@ -29,4 +29,8 @@ double maxF(int nF, std::vector<double> a)
     return aF;
 }
 
-
+void normaliser(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
+{
+    // add normalisation check. say if <10 points >1, just change each of them to 0.98
+    // otherwise use multiplier based on max value
+}
