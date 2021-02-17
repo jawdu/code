@@ -7,20 +7,32 @@
 #include <cmath>
 #include <vector>
 
-void mtest(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
+std::vector<int> mevents(int& N)
+{
+    // make events for morlet. define N by last event + 10 seconds
+    std::vector<int> mev;
+    me.push_back(1);
+
+    int nmev = static_cast<int>(mev.size());
+    N = 44100 * (mev[nmev] + 10);
+
+    return mev;
+}
+
+void mtest(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {
     // test morlet wavelets
-    // work out a t range (nsteps?. each wavelet: a frequency term, an omega term.
     // also means need to stop push_back, instead populate lrChannel elsewhere
+    // do 'feldmanny' OR do a droney thing to test arranging structure.
+
     for (int n = 0; n < N; n++)                                         
     {
         double t = n / 44100.0;
-        double omega = 900.5;        // frequency term.
-        // add a pan term (i.e. s.t. lPan + rPan = 1.0
+        double omega = 900.5;        // frequency term. [could add small random noise here for fun]
+        // add a pan term (i.e. s.t. lPan + rPan = 1.0. noisy morlet: add small random onto omega below
         lChannel.push_back(morlet(t-5.0, omega));    
         rChannel.push_back(morlet(t-5.0, omega));    
     }
-
 }
 
 void placeholder(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
@@ -56,7 +68,6 @@ void sequence(){
     // ------- number terms in fourier expansion
     // ------- hmm, maybe here have a seed value for later stuff (frequency or amplitude...? if time (in)dep>
 }
-
 
 */
 
