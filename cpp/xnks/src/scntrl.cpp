@@ -15,13 +15,20 @@ void smain(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
     // eventually may be arbitrary length - i.e. when the sound ends is determined stochasticly on the fly(ish)
     // want to make sure arranging etc is general as possible. 
 
-    std::vector<int> mev = mevents(N);        // N set in here. m = morlet
-    // int nmev = static_cast<int>(me.size());  or just do this locally each time.
-    // std::vector<double> momega = momega(nmev, mevents);
+    int opt = 1;            // so primitive pre-compilation menu for different methods
+    
+    if (opt == 1)           // morlet lower-case
+    {
+        std::vector<int> mev = mevents(N);                   // N set in here.
+        int nmev = static_cast<int>(mev.size());
+        std::vector<double> mos = momega(nmev);     // obtain omegas
+        mtest(N, lChannel, rChannel);
+    } 
+
+    
 
     // placeholder(N, lChannel, rChannel);
-    mtest(N, lChannel, rChannel);
-
+        
     addnoise(N, lChannel, rChannel);
     normaliser(N, lChannel, rChannel);
     // finished; main will write .wav and finish.

@@ -11,19 +11,30 @@ std::vector<int> mevents(int& N)
 {
     // make events for morlet. define N by last event + 10 seconds
     std::vector<int> mev;
-    me.push_back(1);
+    me.push_back(44000);
+
+    // some more events here
 
     int nmev = static_cast<int>(mev.size());
-    N = 44100 * (mev[nmev] + 10);
+    N = mev[nmev] + 440000;
 
     return mev;
 }
+
+std::vector<double> momegas(int nmev)
+{
+    // make set of omegas
+    std::vector<double> mos;
+    mos.push_back(900);
+    return mos;
+}
+
 
 void mtest(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {
     // test morlet wavelets
     // also means need to stop push_back, instead populate lrChannel elsewhere
-    // do 'feldmanny' OR do a droney thing to test arranging structure.
+    // do 'feldmanny' OR do a droney thing to test arranging structure. lower-case morlet?
 
     for (int n = 0; n < N; n++)                                         
     {
