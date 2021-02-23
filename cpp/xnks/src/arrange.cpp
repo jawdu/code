@@ -7,48 +7,67 @@
 #include <cmath>
 #include <vector>
 
+#include <iostream>
+
 std::vector<int> mevents(int& N)
-{
-    // make events for morlet. define N by last event + 10 seconds
+{           // make events for morlet. define N by last event + 10 seconds
     std::vector<int> mev;
-    me.push_back(44000);
+    int time = 44000;
+    double lambda = 12.0;               //  average interval
+    mev.push_back(time);
 
-    // some more events here
-
+    for (int p = 0; p < 5; p++)
+    {   
+        time += 44000 * -1 * (int)log(randDouble(0.0001, 1.0) / lambda);   // after knuth
+        mev.push_back(time);
+    }
+    
     int nmev = static_cast<int>(mev.size());
-    N = mev[nmev] + 440000;
-
+    N = mev[nmev-1] + 500000;
     return mev;
 }
 
 std::vector<double> momegas(int nmev)
-{
-    // make set of omegas
+{           // make set of omegas. for large nmev, fix mos.num at say 10.
     std::vector<double> mos;
-    mos.push_back(900);
+    for (int p = 0; p < nmev; p++)
+    {
+        mos.push_back(randDouble(600.0, 1200.0));       // bit placeholdery
+    }      
     return mos;
 }
 
+void lcmorlet(int N, std::vector<int> mev, std::vector<double> mos, std::vector<double>& lChannel, std::vector<double>& rChannel)
+{           // arrange Lower Case Morlet wavelets. 
+    int z = 10*44100;           // range of wavelets
+    int nmev = static_cast<int>(mev.size());
+    for (int m = 0; m < nmev; m++)
+    {
+        // decide which mos to use.
+        int q = m;       // placeholder
+        for (int n = 0; n < z; n++)                                         
+        {
+            double t = n / 44100.0;
+           // add a pan term (i.e. s.t. lPan + rPan = 1.0. noisy morlet: add small random onto omega below
+            lChannel[n+mev[m]] += morlet(t-5.0, mos[q]);    
+            rChannel[n+mev[m]] += morlet(t-5.0, mos[q]);    
+        }
+    }
+}
 
 void mtest(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
-{
-    // test morlet wavelets
-    // also means need to stop push_back, instead populate lrChannel elsewhere
-    // do 'feldmanny' OR do a droney thing to test arranging structure. lower-case morlet?
-
+{           // test morlet wavelets
     for (int n = 0; n < N; n++)                                         
     {
         double t = n / 44100.0;
         double omega = 900.5;        // frequency term. [could add small random noise here for fun]
-        // add a pan term (i.e. s.t. lPan + rPan = 1.0. noisy morlet: add small random onto omega below
         lChannel.push_back(morlet(t-5.0, omega));    
         rChannel.push_back(morlet(t-5.0, omega));    
     }
 }
 
 void placeholder(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
-{
-    // the original wave maker. hang on to for testing for now
+{            // the original wave maker. hang on to for testing for now
     int nF = 60; // NOTE makeF fixed for use of 60. but this will depreciate anyway.
     std::vector<double> a = makeA(nF);     
     std::vector<double> f = makeF(nF);      
@@ -57,29 +76,9 @@ void placeholder(int N, std::vector<double>& lChannel, std::vector<double>& rCha
     for (int n = 0; n < N; n++)                                         
     {
         double v = 0.0;
-        for (int p = 0; p < nF; p++)
-        {
-            v = v + a[p]*cos(6.28*f[p]*n/44100.0);
-        }
+        for (int p = 0; p < nF; p++) {  v = v + a[p]*cos(6.28*f[p]*n/44100.0); }
         lChannel.push_back(v/(double)aF);
         rChannel.push_back(v/(double)aF);
     }
 }
-
-
-
-/*
-
-    // use [statistical distribution] to obtain *time-gaps* between events rather than test at each time step
-
-void sequence(){
-    // make vector of start_time
-    // make vector of pan (len = len(start_time) [assuming constant pans]
-    // make vector of characteristic of events (len = integer * start_time) [more than 1 characteristic per event?]
-    // ------- number terms in fourier expansion
-    // ------- hmm, maybe here have a seed value for later stuff (frequency or amplitude...? if time (in)dep>
-}
-
-*/
-
 

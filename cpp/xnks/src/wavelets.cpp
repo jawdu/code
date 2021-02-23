@@ -4,8 +4,7 @@
 #include <cmath>
 
 double morlet(double t, double omega)
-{
-    // return morlet wavelet value for a t, omega
+{           // return morlet wavelet value for a t, omega
     // IMPORTANT: the t passed here should be converted from int and also to suitable range about 0
     double tn = 1.0 * t;            
     double pi = 0.7511255;
