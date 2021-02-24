@@ -33,17 +33,15 @@ namespace littleEndian
 using namespace littleEndian;
 
 void writeWav(string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel);
-int getLen();
 
 int main()
 {
     std::vector<double> lChannel, rChannel;
+    int N;
 
     std::stringstream ss;                                                               // setup filename with timestamp
     ss << time(0);  
     std::string fileName = "test" + ss.str() + ".wav";
-  
-    int N = getLen();               // at some point length will end up a stochastic variable. 
 
     smain(N, lChannel, rChannel);
     writeWav(fileName, N, lChannel, rChannel);                          // write .wav and finish
@@ -53,30 +51,6 @@ int main()
 }
 
 // functions for IO
-
-int getLen()
-{
-    double hz = 44100;                       // samples per second
-    double seconds  = 50.0;               // this will do for default
-    int N = hz * seconds;                     // total number of samples
-    /*
-    int inVal;
-    int N;
-
-    cout << endl << " Enter duration in seconds, or non-integer number for default: " << endl;
-    std::cin >> inVal;						
-    if (inVal >> N) {
-    // suitable number
-    N = hz * inVal;    
-    } else  {
-    // use default
-    N = hz * seconds;
-    }
-    cout << endl << " value: " << inVal;
-    cout << endl << " value: " << N;
-    */
-    return N;
-}
 
 void writeWav(std::string fileName, int N, std::vector<double> lChannel, std::vector<double> rChannel)              
 {

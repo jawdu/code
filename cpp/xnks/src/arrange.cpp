@@ -13,10 +13,10 @@ std::vector<int> mevents(int& N)
 {           // make events for morlet. define N by last event + 10 seconds
     std::vector<int> mev;
     int time = 44000;
-    double lambda = 12.0;               //  average interval
+    double lambda = 25.0;               //  average interval
     mev.push_back(time);
 
-    for (int p = 0; p < 5; p++)
+    for (int p = 0; p < 10; p++)
     {   
         time += 44000 * -1 * (int)log(randDouble(0.0001, 1.0) / lambda);   // after knuth
         mev.push_back(time);
@@ -32,7 +32,7 @@ std::vector<double> momegas(int nmev)
     std::vector<double> mos;
     for (int p = 0; p < nmev; p++)
     {
-        mos.push_back(randDouble(600.0, 1200.0));       // bit placeholdery
+        mos.push_back(randDouble(400.0, 2000.0));       // bit placeholdery
     }      
     return mos;
 }
@@ -66,19 +66,4 @@ void mtest(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
     }
 }
 
-void placeholder(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
-{            // the original wave maker. hang on to for testing for now
-    int nF = 60; // NOTE makeF fixed for use of 60. but this will depreciate anyway.
-    std::vector<double> a = makeA(nF);     
-    std::vector<double> f = makeF(nF);      
-    double aF = maxF(nF, a) * nF;
-
-    for (int n = 0; n < N; n++)                                         
-    {
-        double v = 0.0;
-        for (int p = 0; p < nF; p++) {  v = v + a[p]*cos(6.28*f[p]*n/44100.0); }
-        lChannel.push_back(v/(double)aF);
-        rChannel.push_back(v/(double)aF);
-    }
-}
 

@@ -1,7 +1,7 @@
 // sound control.
 
 #include "arrange.h"
-#include "create.h"
+#include "create.h"         // this is getting perilously empty.
 #include "scntrl.h"
 #include "utils.h"
 #include "wavelets.h"
@@ -24,8 +24,7 @@ void smain(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
         lcmorlet(N, mev, mos, lChannel, rChannel);
         normaliser(N, F, lChannel, rChannel);                      // maybe different for lowercase, see how it goes
     } 
-    // mtest(N, lChannel, rChannel);            // deprecated i hope
-    // placeholder(N, lChannel, rChannel);  // deprecated i hope
+    // mtest(N, lChannel, rChannel);            // deprecated i hope, or keep to test
     // addnoise(N, lChannel, rChannel);        // empty so far
 
     // finished; main will write .wav and finish.

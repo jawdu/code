@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cmath>
 #include <random>
-#include <time.h>
 #include <vector>
 
 static bool abs_compare(double a, double b)

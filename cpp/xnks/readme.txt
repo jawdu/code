@@ -1,4 +1,15 @@
 
+        main.cpp
+
+                |
+
+        scntrl.cpp
+
+        |               |
+
+   arrange      create            | |   utils  
+
+
 
 --- main.cpp
     top-level function. contains io stuff to write to .wav, no plans to add anything else.
@@ -18,4 +29,6 @@
     needn't clutter up the interesting bits
 
 
+
+Requires -std=gnu++11 flag or similar (random number generator using mt19937)
 

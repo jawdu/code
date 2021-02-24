@@ -6,7 +6,7 @@
 #include <cmath>
 #include <vector>
 
-std::vector<double> makeF(int nF)       // will hopefully depreciate
+std::vector<double> makeF(int nF)       // depreciated
 {
     std::vector<double> f;
     for (int p = 0; p < 10; p++)
@@ -17,7 +17,7 @@ std::vector<double> makeF(int nF)       // will hopefully depreciate
     return f;
 }
 
-std::vector<double> makeA(int nF)       // will hopefully depreciate
+std::vector<double> makeA(int nF)       // depreciated
 {
     std::vector<double> a;
     for (int p = 0; p < nF; p++)
