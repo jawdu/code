@@ -2,9 +2,6 @@
 
 #include "create.h"
 #include "utils.h"
-#include <vector>
-#include <cmath>
-#include <vector>
 
 std::vector<double> makeF(int nF)       // depreciated
 {

@@ -1,7 +1,6 @@
 // wavelet functions
 
 #include "wavelets.h"
-#include <cmath>
 
 double morlet(double t, double omega)
 {           // return morlet wavelet value for a t, omega

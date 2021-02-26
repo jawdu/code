@@ -4,10 +4,6 @@
 #include "create.h"
 #include "utils.h"
 #include "wavelets.h"
-#include <cmath>
-#include <vector>
-
-#include <iostream>
 
 std::vector<int> mevents(int& N)
 {           // make events for morlet. define N by last event + 10 seconds

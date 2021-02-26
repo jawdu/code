@@ -1,3 +1,5 @@
+#include <cmath>
+#include <iostream>
 #include <vector>
 std::vector<int> mevents(int& N);
 std::vector<double> momegas(int nmev);

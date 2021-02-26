@@ -1,10 +1,6 @@
 // utility functions
 
 #include "utils.h"
-#include <algorithm>
-#include <cmath>
-#include <random>
-#include <vector>
 
 static bool abs_compare(double a, double b)
 { return (std::abs(a) < std::abs(b)); }
