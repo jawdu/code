@@ -29,25 +29,20 @@ void addnoise(int N, std::vector<double>& lChannel, std::vector<double>& rChanne
 
 void normaliser(int N, double F, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {
-    // add normalisation check. say if <10 points >1, just change each of them to 0.98
-    // otherwise use multiplier based on max value. also F adds factor from outside.
-  
-    int lc = 0;
-    int rc = 0;
-    for (int p = 0; p < N; p++)
-    {
-        if (lChannel[p] > 1.0) { lc++; }
-        if (rChannel[p] > 1.0) { rc++; }
-    }
-    if ((lc + rc) > 0) {
-        double lmax = *max_element(lChannel.begin(), lChannel.end(), abs_compare);
-        double rmax = *max_element(rChannel.begin(), rChannel.end(), abs_compare);
-        double factor = std::max(lmax, rmax) * F;           // F default will be 1
+    // otherwise use multiplier based on max value. F adds factor from outside.
 
+    double lmax = *max_element(lChannel.begin(), lChannel.end(), abs_compare);
+    double rmax = *max_element(rChannel.begin(), rChannel.end(), abs_compare);
+    double lrmax = std::max(lmax, rmax);
+    if (lrmax > 1.0) {        
+        double factor = lrmax * F;           
         for (int p = 0; p<N; p++)
         {
              lChannel[p] = lChannel[p] / factor;   
              rChannel[p] = rChannel[p] / factor;   
         }
     }
+    // else, if want to apply e.g. F blanketly
 }
+
+
