@@ -1,4 +1,3 @@
 #include <cmath>
 #include <vector>
-std::vector<double> makeF(int nF);
-std::vector<double> makeA(int nF);
+void morletOne(int N, std::vector<int> mev, std::vector<double> mos, std::vector<double>& lChannel, std::vector<double>& rChannel);
