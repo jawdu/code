@@ -13,3 +13,13 @@ double morlet(double t, double omega)
     double val = co * pi * exp(-0.5*t*t) * (cos(omega*t) - ko);
     return val;
 }
+
+double gabor(double t, double omega)
+{       // return gabor wavelet imaginary component. assume x0 = 0. range still [-5, 5]
+    double tn = 1.0 * t;
+    double a = 2.0 * 2.0;             // controls rate of exponential drop off. only a^2 term used.
+    double val = exp(-1.0 * t * t / a) * -1.0 * sin(omega * t);
+    return val;
+}
+
+

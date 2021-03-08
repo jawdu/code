@@ -22,7 +22,6 @@ std::vector<int> morletEvents(int& N, double lambda, int nev)
 
 std::vector<double> morletOmegas(int nom)
 {           // make set of omegas: points on a 2.pi sin (so returns to start point roughly)
-    
     std::vector<double> mos;
     for (int p = 0; p < nom; p++)
     {       // last randDouble term just to make slightly irregular
