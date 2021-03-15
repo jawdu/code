@@ -1,5 +1,5 @@
 // wavelet functions
-
+#include "utils.h"
 #include "wavelets.h"
 
 double morlet(double t, double omega)
@@ -22,4 +22,9 @@ double gabor(double t, double omega)
     return val;
 }
 
+double shannon(double t)
+{
+    return (2*sinc(2.0*t) - sinc(1.0*t));
+    //return (2*sinc(2.0*t*omega) - sinc(1.0*t*omega));
+}
 

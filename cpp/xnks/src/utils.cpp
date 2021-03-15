@@ -23,6 +23,12 @@ double maxF(int nF, std::vector<double> a)
     return aF;
 }
 
+double sinc(double x)
+{       
+    if(x == 0) return 1.0; 
+    else return sin(x)/x;
+}
+
 void addnoise(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {           // add some noise/crackle/etc
 }
@@ -34,11 +40,11 @@ void normaliser(int N, double F, std::vector<double>& lChannel, std::vector<doub
     double lmax = *max_element(lChannel.begin(), lChannel.end(), abs_compare);
     double rmax = *max_element(rChannel.begin(), rChannel.end(), abs_compare);
     double lrmax = std::max(lmax, rmax);
-    if (lrmax > 1.0) { factor = F / lrmax; } else { factor = F; }
+    if (lrmax > 1.0) { factor = F * lrmax; } else { factor = F; }
     for (int p = 0; p<N; p++)             //   ... do this regardless, to allow factor to do stuff.
     {                                                     
-        lChannel[p] = lChannel[p] * factor;   
-        rChannel[p] = rChannel[p] * factor;   
+        lChannel[p] = lChannel[p] / factor;   
+        rChannel[p] = rChannel[p] / factor;   
     }
 }
 

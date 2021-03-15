@@ -28,5 +28,24 @@ void morletOne(int N, std::vector<int> mev, std::vector<double> mos, std::vector
     }
 }
 
+void shannonOne(int N, std::vector<double>& lChannel, std::vector<double>& rChannel)
+{
+    // e.g. shannon wavelet... have to rescale t for audbiel frequency, then try for large number of events.
+    // also multiply each by (+-)0.3, function is asymmetrical +-.
+    // double shannon(double t, double omega) omega: to get into audible freq zone.
 
+/*
+        double pan = randDouble(-0.5, 0.5);
+        double s = randDouble(-1.0, 1.0);       // just want +- 0.3
+        double omega = randDouble(500, 1500);
+        for (int n etc
+        {
+            double t = omega * n / 44100.0;
+            lChannel[n+ #### ] += (1.0 + pan) * s * shannon(t)
+            rChannel[n+ #### ] += (1.0 - pan) * s * shannon(t)
+        }
+*/
+
+
+}
 
