@@ -12,7 +12,7 @@
 void smain(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {           // main point of entry for making sound. by the end, created and populated lChannel, rChannel
 
-    int opt = 1;                // so primitive pre-compilation menu for different methods
+    int opt = 2;                // so primitive pre-compilation menu for different methods
     double F = 1.1;         // default for value to pass to normaliser (this may deprecate).
     
     if (opt == 1)           // morlet 1. try naive/faux-serialist to give omega structure.
@@ -26,9 +26,9 @@ void smain(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 
     if (opt == 2)           // try out shannon
     {
-        // need N    
+        std::vector<int> sev = morletEvents(N, 1.0, 20); // shannonEvents(N, 1.0, 20);    
         lChannel.assign(N, 0.0); rChannel.assign(N, 0.0);      
-        shannonOne(N, lChannel, rChannel);
+        shannonOne(N, sev, lChannel, rChannel);
         normaliser(N, F, lChannel, rChannel); 
     }
 

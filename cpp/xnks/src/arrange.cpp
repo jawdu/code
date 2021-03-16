@@ -30,5 +30,10 @@ std::vector<double> morletOmegas(int nom)
     return mos;
 }
 
-
+std::vector<int> shannonEvents(int& N, double lambda, int nsev)
+{
+    std::vector<int> sev;
+    return sev;
+    // 
+}
 
