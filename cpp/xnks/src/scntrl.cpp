@@ -6,9 +6,6 @@
 #include "utils.h"
 #include "wavelets.h"
 
-//#include <iostream>
-//using namespace std;
-
 void smain(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
 {           // main point of entry for making sound. by the end, created and populated lChannel, rChannel
 
@@ -24,9 +21,19 @@ void smain(int& N, std::vector<double>& lChannel, std::vector<double>& rChannel)
         normaliser(N, F, lChannel, rChannel);                      // maybe different for lowercase, see how it goes
     } 
 
-    if (opt == 2)           // try out shannon
+    if (opt == 2)           // morlet drone
     {
-        std::vector<int> sev = morletEvents(N, 1.0, 20); // shannonEvents(N, 1.0, 20);    
+        std::vector<int> mdev = mdroneEvents(N, 2.0, 50);
+        std::vector<double> mdos = mdroneOmegas(2);
+        lChannel.assign(N, 0.0); rChannel.assign(N, 0.0);    
+        morletOne(N, mdev, mdos, lChannel, rChannel);        
+        //  morletDrone, can use morletOne but that uses morlet and gabor. guess that's ok.
+        normaliser(N, F, lChannel, rChannel); 
+    }
+
+    if (opt == 3)           // try out shannon
+    {
+        std::vector<int> sev = shannonEvents(N, 100.0, 150, 200);  // N, lambda, extra poisson factor, nevents
         lChannel.assign(N, 0.0); rChannel.assign(N, 0.0);      
         shannonOne(N, sev, lChannel, rChannel);
         normaliser(N, F, lChannel, rChannel); 

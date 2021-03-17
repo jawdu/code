@@ -30,10 +30,41 @@ std::vector<double> morletOmegas(int nom)
     return mos;
 }
 
-std::vector<int> shannonEvents(int& N, double lambda, int nsev)
+std::vector<int> mdroneEvents(int& N, double lambda, int nev)
+{
+    std::vector<int> mev;
+    int time = 44000;
+    mev.push_back(time);
+    for (int p = 0; p<(nev-1); p++)
+    {
+        time += 44000 * (-1 * (int)log(randDouble(0.0001, 1.0) / lambda) + 3); // 3s + poisson interval
+        mev.push_back(time);
+    }
+    N = mev[nev-1] + 500000;
+    return mev;
+}
+
+std::vector<double> mdroneOmegas(int nom)
+{
+    std::vector<double> mos;
+    for (int p = 0; p < nom; p++)
+    {
+        mos.push_back(700.0 * randDouble(0.8, 1.2));
+    }
+    return mos;
+}
+
+std::vector<int> shannonEvents(int& N, double lambda, int pfact, int nsev)
 {
     std::vector<int> sev;
+    int time = 20000;
+    sev.push_back(time);
+    for (int p = 0; p < (nsev-1); p++)
+    {
+        time += (int)(-pfact * log(randDouble(0.0001, 1.0) / lambda));    
+        sev.push_back(time);
+    }
+    N = sev[nsev-1] + 500000;
     return sev;
-    // 
 }
 
