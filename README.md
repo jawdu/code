@@ -1,6 +1,6 @@
 ### code
 
-Code that isn't web stuff, by language. Folders might also have a codeGolf folder: playing around with ideas from codeGolf on stackexchange for practice.
+Code that isn't web stuff, by language. codeGolf folders just playing around with ideas for practice, not much to see.
 
 - bash
 
@@ -20,7 +20,7 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
   - soundfw: barebones stuff needed to write a .wav in C++ (future project prep)
 
-  - xnks: nascent experiment in producing sound; loose model/inspiration = Iannis Xenakis.
+  - xnks: nascent experiment in producing sound; loose model/inspiration = Iannis Xenakis, etc.
 
 - python
 
@@ -34,17 +34,17 @@ Code that isn't web stuff, by language. Folders might also have a codeGolf folde
 
   - elogget: written as a favour for someone to automate workflow with emails, attachments (mostly synthesis of other people's work), elog.
 
-  - python codeGolf
+<!--- - python codeGolf
 
     - rForest: draw a randomised forest
   
     - simUniv: a universe simulation
-
+--->
 - ruby
 
   - glijd: parallel to skrejd, a medium term create glitch audio project 
 
-  - ruby codeGolf
+<!---  - ruby codeGolf
 
     - simUniv: that same universe simulation, but in ruby!
-  
+--->
