@@ -34,17 +34,6 @@ Code that isn't web stuff, by language. codeGolf folders just playing around wit
 
   - elogget: written as a favour for someone to automate workflow with emails, attachments (mostly synthesis of other people's work), elog.
 
-<!--- - python codeGolf
-
-    - rForest: draw a randomised forest
-  
-    - simUniv: a universe simulation
---->
 - ruby
 
   - glijd: parallel to skrejd, a medium term create glitch audio project 
-
-<!---  - ruby codeGolf
-
-    - simUniv: that same universe simulation, but in ruby!
---->
